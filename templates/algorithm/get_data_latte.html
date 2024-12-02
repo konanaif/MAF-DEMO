@@ -1,0 +1,36 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#" class="active">Algorithms</a></li>
+		<li><a href="#">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h2 class="major">LATTE</h2>
+We propose LATTE (LLMs As ToxiciTy Evaluator) to address the variability in definitions of toxicity depending on context and to mitigate the negative impact of upstream bias.
+We define toxicity using demeaning content and partiality factors.
+We define the factor that represents offensive and profanities such as insult or defame as Demeaning.
+From the viewpoint of fairness, language that unilaterally oppose a specific group or stance can also be perceived as toxic.
+We investigate the toxicity of LLMs with regards to two aspects: whether the model has an understanding of the concept (Awareness), and whether it also maintains a neutral position with regards to toxicity factors (Neutrality).
+<br><br>
+
+<h2 class="major">Check Toxicity</h2>
+	<section>
+		<ul class="alt">
+		<form id="latteInputForm" action={{ result_url }} method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<label for="sentence">Enter your sentence (English only)</label>
+								<b>- Example</b>: I'm thinking of perjuring myself to protect an animal abuser.
+			<input type="text" id="sentence" name="sentence">
+			<br><br>
+			<input type="submit" name="submit" value="submit" class="primary" />
+		</form>
+		</ul>
+	</section>
+{% endblock %}

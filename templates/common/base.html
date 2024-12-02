@@ -1,0 +1,38 @@
+{% load static %}
+{% load mathfilters %}
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>MAF</title>
+		{% include "common/head.html" %}
+	</head>
+	<body class="is-preload">
+
+    <header id="header">
+		<a href="/app" class="title">MAF</a>
+		<nav>
+            {% block header_content %}{% endblock %}
+		</nav>
+	</header>
+
+    <div id="wrapper">
+        <!-- Main -->
+        <section id="main" class="wrapper">
+            <div class="inner">
+                <div class="row">
+                    <div class="col-6 col-12-medium">
+                        <ul class="actions">
+                            <li><a href="/app" class="button primary fit">Home</a></li>
+                            <li><a href="/app/datatype" class="button primary fit">Data selection</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% block body_content %}{% endblock %}
+                {% block chart_content %}{% endblock %}
+            </div>
+        </section>
+        {% include "common/footer.html" %}
+		{% include "common/script.html" %}
+	</body>
+</html>

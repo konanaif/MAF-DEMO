@@ -1,0 +1,27 @@
+{% extends "common/base.html" %}
+{% load mathfilters %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#" class="active">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+Automatic Speech Recognition (ASR) systems have attained unprecedented performance with large speech models pre-trained based on self-supervised speech representation learning.
+We propose Information Theoretic Adversarial Prompt Tuning (INTapt), which introduces prompts concatenated to the original input that can re-modulate the attention of the pre-trained
+model such that the corresponding input resembles a native (L1) English speech without updating the backbone weights.
+<br><br>
+	<h1 class="major">Results</h1>
+	<!-- Text -->
+		<section>
+			<ul class="alt">
+				<li><b>Average performance</b>: {{ test_avg_perf }}</li>
+				<li><b>max - min performance</b>: {{ perf_diff }}</li>
+			</ul>
+		</section>
+{% endblock %}

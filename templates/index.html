@@ -1,0 +1,270 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MAF</title>
+	{% include "common/head.html" %}
+</head>
+<body class="is-preload">
+	<!-- Sidebar -->
+	<section id="sidebar">
+		<div class="inner">
+			<nav>
+				<ul>
+					<li><a href="#intro">What is MAF</a></li>
+					<li><a href="#sota">State of the art</a></li>
+					<li><a href="#adv">Adventages</a></li>
+				</ul>
+			</nav>
+		</div>
+	</section>
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Intro -->
+		<section id="intro" class="wrapper style1 fullscreen fade-up">
+			<div class="inner">
+				<h1>What is MAF?</h1>
+				<p><b>MSIT AI Fairness.</b> A bias mitigation tool.</p>
+				<ul class="actions">
+					<li><a href="/app/datatype" class="button scrolly primary">Data selection</a></li>
+					<li><a href="#sota" class="button scrolly">Description of SOTA algorithms</a></li>
+				</ul>
+			</div>
+		</section>
+
+		<!-- SOTA -->
+		<section id="sota" class="wrapper style2 spotlights">
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/fairbatch.jpg' %}" alt="" data-position="center center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2>Fair Batch</h2>
+						<p>Yuji Roh, Kangwook Lee, Steven Euijong Whang, and Changho Suh<b>, FairBatch: Batch Selection for Model Fairness.</b> In Proceedings of the 9th International Conference on Learning Representations (ICLR), 2021.</p>
+						<ul class="actions">
+							<li><a href="https://arxiv.org/abs/2012.01696" target="_blank" class="button">Paper</a></li>
+							<li><a href="https://github.com/yuji-roh/fairbatch" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/ffd.jpg' %}" alt="" data-position="left center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2>Fair Feature Distillation</h2>
+						<p>S. Jung, D. Lee, T. Park and T. Moon<b>, Fair Feature Distillation for Visual Recognition</b>, in 2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), Nashville, TN, USA, 2021 pp. 12110-12119.</p>
+						<ul class="actions">
+							<li><a href="https://arxiv.org/abs/2106.04411" target="_blank" class="button">Paper</a></li>
+							<li><a href="https://github.com/DQle38/Fair-Feature-Distillation-for-Visual-Recognition" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/fvae.png' %}" alt="" data-position="left center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2>Fair Variational Auto-Encoder</h2>
+						<p>Sungho Park, Dohyung Kim, Sunhee Hwang, and Hyeran Byun <b>, README: REpresentation learning by fairness-Aware Disentangling MEthod.</b> arXiv preprint arXiv:2007.03775, 2020.</p>
+						<ul class="actions">
+							<li><a href="https://arxiv.org/abs/2007.03775" target="_blank" class="button">Paper</a></li>
+							<li><a href="https://github.com/sungho-CoolG/Fairness-VAE" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/kde.jpg' %}" alt="" data-position="left center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2>Kernel Density Estimation</h2>
+						<p>Jaewoong Cho, Gyeongjo Hwang, Changho Suh<b>, A Fair Classifier Using Kernel Density Estimation</b>, Advances in Neural Information Processing Systems 33 (NeurIPS 2020), 2020.</p>
+						<ul class="actions">
+							<li><a href="https://proceedings.neurips.cc/paper/2020/hash/ac3870fcad1cfc367825cda0101eee62-Abstract.html" target="_blank" class="button">Paper</a></li>
+							<li><a href="https://github.com/Gyeongjo/FairClassifier_using_KDE" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/lff.jpg' %}" alt="" data-position="center center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2>Learning from Fairness</h2>
+						<p>Junhyun Nam, Hyuntak Cha, Sungsoo Ahn, Jaeho Lee, Jinwoo Shin<b>, Learning from Failure: Training Debiased Classifier from Biased Classifier</b>, Advances in Neural Information Processing Systems 33 (NeurIPS 2020), 2020.</p>
+						<ul class="actions">
+							<li><a href="https://arxiv.org/abs/2007.02561" target="_blank" class="button">Paper</a></li>
+							<li><a href="https://github.com/alinlab/LfF" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/cooc.jpg' %}" alt="" data-position="center center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2> Co-occurrence Bias </h2>
+						<p> Cheongwoong Kang, Jaesik Choi <b>, Impact of Co-occurrence on Factual Knowledge of Large Language Models </b>, EMNLP 2023 Findings, 2023.</p>
+						<ul class="actions">
+							<li><a href= "https://aclanthology.org/2023.findings-emnlp.518.pdf" target="_blank" class="button">Paper</a></li>
+							<li><a href= "https://github.com/CheongWoong/impact_of_cooccurrence" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/latte.png' %}" alt="" data-position="center center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2> Latte </h2>
+						<p> Hyukhun Koh, Dohyung Kim, Minwoo Lee, Kyomin Jung <b>, Can LLMsRecognize Toxicity? A Structured Investigation Framework and Toxicity Metric </b>, arXiv preprint arXiv:2402.06900, 2024.</p>
+						<ul class="actions">
+							<li><a href= "https://arxiv.org/pdf/2402.06900v3" target="_blank" class="button">Paper</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/kobbq.png' %}" alt="" data-position="center center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2> KoBBQ </h2>
+						<p> Jiho Jin, Jiseon Kim, Nayeon Lee, Haneul Yoo, Alice Oh, Hwaran Lee <b>, KoBBQ: Korean Bias Benchmark for Question Answering </b>, TACL 2024.</p>
+						<ul class="actions">
+							<li><a href= "https://arxiv.org/abs/2307.16778" target="_blank" class="button">Paper</a></li>
+							<li><a href= "https://github.com/naver-ai/KoBBQ?tab=readme-ov-file" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/crehate.png' %}" alt="" data-position="center center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2> CREHate </h2>
+						<p> Nayeon Lee, Chani Jung, Junho Myung, Jiho Jin, Jose Camacho-Collados, Juho Kim, Alice Oh <b>, Exploring Cross-Cultural Differences in English Hate Speech Annotations: From Dataset Construction to Analysis </b>, NAACL 2024. </p>
+						<ul class="actions">
+							<li><a href= "https://arxiv.org/abs/2308.16705" target="_blank" class="button">Paper</a></li>
+							<li><a href= "https://github.com/nlee0212/CREHate" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/concse.png' %}" alt="" data-position="center center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2> ConCSE </h2>
+						<p> Jangyeong Jeon, Sangyeon Cho, Minuk Ma, Junyoung Kim <b>, ConCSE: Unified Contrastive Learning and Augmentation for Code-Switched Embeddings </b>, ICPR 2024. </p>
+						<ul class="actions">
+							<li><a href= "https://arxiv.org/abs/2409.00120" target="_blank" class="button">Paper</a></li>
+							<li><a href= "https://github.com/jjy961228/ConCSE?tab=readme-ov-file" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/slide.png' %}" alt="" data-position="center center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2> SLIDE </h2>
+						<p> Kunwoong Kim, Ilsang Ohn, Sara Kim, Yongdai Kim <b>, SLIDE: A surrogate fairness constraint to ensure fairness consistency </b>, Neural Networks 154, 2022.</p>
+						<ul class="actions">
+							<li><a href= "https://www.sciencedirect.com/science/article/abs/pii/S0893608022002891" target="_blank" class="button">Paper</a></li>
+							<li><a href= "https://github.com/kwkimonline/SLIDE?tab=readme-ov-file" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/fairpca.png' %}" alt="" data-position="center center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2> Fair Streaming PCA </h2>
+						<p> Junghyun Lee, Hanseul Cho, Se-Young Yun, Chulhee Yun <b>, Fair Streaming Principal Component Analysis: Statistical and Algorithmic Viewpoint </b>, arXiv preprint arXiv:2310.18593, 2023.</p>
+						<ul class="actions">
+							<li><a href= "https://arxiv.org/abs/2310.18593" target="_blank" class="button">Paper</a></li>
+							<li><a href= "https://github.com/HanseulJo/fair-streaming-pca/?tab=readme-ov-file" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/sipm.png' %}" alt="" data-position="center center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2> sIPM-LFR </h2>
+						<p> Dongha Kim, Kunwoong Kim, Insung Kong, Ilsang Ohn, Yongdai Kim <b>, Learning fair representation with a parametric integral probability metric </b>, ICML 2022. </p>
+						<ul class="actions">
+							<li><a href= "https://arxiv.org/abs/2202.02943"  target="_blank" class="button">Paper</a></li>
+							<li><a href= "https://github.com/kwkimonline/sIPM-LFR" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/intapt.png' %}" alt="" data-position="center center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2> INTapt </h2>
+						<p> Eunseop Yoon, Hee Suk Yoon, John Harvill, Mark Hasegawa-Johnson, Chang D. Yoo <b>, INTapt: Information-Theoretic Adversarial Prompt Tuning for Enhanced Non-Native Speech Recognition </b>,  arXiv preprint arXiv:2305.16371, 2023.</p>
+						<ul class="actions">
+							<li><a href= "https://arxiv.org/abs/2305.16371"  target="_blank" class="button">Paper</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section>
+				<a href="#" class="image"><img src="{% static 'images/ftm.png' %}" alt="" data-position="center center" /></a>
+				<div class="content">
+					<div class="inner">
+						<h2> FTM </h2>
+						<p> Kunwoong Kim, Insung Kong, Jongjin Lee, Minwoo Chae, Sangchul Park, Yongdai Kim <b>, Fairness Through Matching </b></p>
+						<ul class="actions">
+							<li><a href= "https://github.com/kwkimonline/FTM" target="_blank" class="button">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+		</section>
+
+		<!-- Advantages -->
+			<section id="adv" class="wrapper style3 fade-up">
+				<div class="inner">
+					<h2>Advantages</h2>
+					<p>MAF is an easy and efficient bias mitigation toolkit. MAF could process unstructured data like images. For anyone who dosen't have any programming knowleges, MAF serves a user friendly interface. MAF will be updated continuously, then it will be more powerful mitigation toolkit.</p>
+					<div class="features">
+						<section>
+							<span class="icon solid major fa-code"></span>
+							<h3>Python library</h3>
+							<p>For programmers, MAF could be used in develop environment. Please check the <a href="https://github.com/konanaif/MAF" target="_blank">MAF repository</a>.</p>
+						</section>
+						<section>
+							<span class="icon solid major fa-cog"></span>
+							<h3>Unstructured data</h3>
+							<p>MAF could deal with unstructured data. Images could be used on MAF now. Text, audio, and video processor will be updated soon.</p>
+						</section>
+						<section>
+							<span class="icon solid major fa-desktop"></span>
+							<h3>Visualization</h3>
+							<p>MAF visualize the result of mitigation in various charts. It will be helpful for analyzing the result directly and easily.</p>
+						</section>
+						<section>
+							<span class="icon major fa-gem"></span>
+							<h3>State of the art</h3>
+							<p>MAF will be updated continuously. It maintain a state of the art bias mitigation toolkit.</p>
+						</section>
+					</div>
+				</div>
+			</section>
+
+	</div>
+	{% include "common/footer.html" %}
+	{% include "common/script.html" %}
+	</body>
+</html>

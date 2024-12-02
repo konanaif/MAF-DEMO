@@ -1,0 +1,46 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#" class="active">Algorithms</a></li>
+		<li><a href="#">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h1 class="major">Audio Algorithm Selection</h1>
+	<form id="audioalgorithmForm" action="/mitigation/" method="post" enctype="multipart/form-data">
+	<ul class="alt">
+		<li>
+			<div class="col-4 col-12-small">
+					<input type="radio" id="{{INTapt}}" name="algorithm" value="{{INTapt}}">
+					<label class="tooltip" for="{{INTapt}}">INTapt
+						<span class="tooltiptext tooltip-right">INTapt
+							Information Theoretic Adversarial Prompt Tuning (INTapt), which introduces prompts concatenated to the original input that can re-modulate the attention of the pre-trained model such that the corresponding input resembles a native (L1) English speech without updating the backbone weights.
+						</span>
+					</label>
+			</div>
+		</li>
+	</ul>
+	<div class="col-12">
+		<input type="submit" onclick="submitForm()" value="Check Result" class="primary" />
+	</div>
+	</form>
+
+<script>
+		function submitForm(){
+			const selectedData = document.querySelector('input[name="algorithm"]:checked');
+			if (selectedData){
+				document.getElementById('audioalgorithmForm').action = '/app/mitigation/'+selectedData.value+'/'+selectedData.value+'/';
+				document.getElementById('audioalgorithmForm').submit();
+			}
+			else{
+				alert("Please select an option before submitting.");
+			}
+		}
+</script>
+{% endblock %}

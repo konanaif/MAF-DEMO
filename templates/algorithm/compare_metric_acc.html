@@ -1,0 +1,52 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load mathfilters %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#" class="active">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h1 class="major">Mitigation Result</h1>
+<!-- Text -->
+	<section>
+		<ul class="alt">
+			<li><b>Dataset</b>: {{ data_name }}</li>
+			<li><b>Mitigation algorithm</b>: {{ algorithm_name }}</li>
+		</ul>
+	</section>
+
+<!-- Table -->
+	<h2>Performance metrics</h2>
+	<section>
+		<div class="table-wrapper">
+			<table>
+				<thead>
+					<tr>
+						<th>Attribute</th>
+						<th>Original Value</th>
+						<th>Mitigated Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Accuracy</td>
+						{% if original.acc >= mitigated.acc %}
+							<td><b>{{ original.acc }}</b></td>
+							<td>{{ mitigated.acc }}</td>
+						{% else %}
+							<td>{{ original.acc }}</td>
+							<td><b>{{ mitigated.acc }}</b></td>
+						{% endif %}
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+{% endblock %}

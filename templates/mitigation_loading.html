@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>MAF</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+		<link rel="stylesheet" href="{% static 'assets/css/modal.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+		<style>
+			#loadingContainer p {
+			color: #ffffff;
+			font-weight: normal;
+			font-size: 1.25em;
+			line-height: 1.5;
+			margin: 0 0 0.5em 0;
+		}
+		</style>
+		<script>
+			async function checkMitigationStatus() {
+				window.location.href = 'mitigation';
+			}
+			document.addEventListener('DOMContentLoaded', () => {
+				checkMitigationStatus();
+			});
+		</script>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="/" class="title">MAF</a>
+				<nav>
+					<ul>
+						<li><a href="/app">Home</a></li>
+						<li><a href="/app/datatype">Data</a></li>
+						<li><a href="#">Metrics</a></li>
+						<li><a href="#" class="active">Algorithms</a></li>
+						<li><a href="#">Result</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<div class="row">
+								<div class="col-6 col-12-medium">
+									<ul class="actions">
+										<li><a href="/app" class="button fit">Home</a></li>
+										<li><a href="/app/data" class="button fit">Data selection</a></li>
+									</ul>
+								</div>
+							</div>
+							<h1 class="major">Mitigation in process</h1>
+							<div id="loadingContainer" style="display: flex; align-items: center;">
+							<div id="loadingImage">
+								<img src="{% static 'images/YlWC.gif' %}" alt="Loading..." />
+							</div>
+							<p>Loading</p>
+						</div>
+						</div>
+					</section>
+			</div>
+	</body>
+</html>

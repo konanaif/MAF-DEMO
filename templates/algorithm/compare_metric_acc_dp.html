@@ -1,0 +1,71 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load mathfilters %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#" class="active">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h1 class="major">Mitigation Result</h1>
+	<section>
+		<ul class="alt">
+			<li><b>Dataset</b>: {{ data_name }}</li>
+			<li><b>Protected attribute</b>: {{ protected_attribute }}</li>
+				<li><b>Mitigation algorithm</b>: {{ algorithm_name }}</li>
+		</ul>
+		{% if algorithm_name == 'ftm' %}
+		In FTM, we present an important mathematical observation that every group-fair model inherently and implicitly possesses a transport map.
+		Based on this, we propose a new group fairness metric called Matched Demographic Parity (MDP).
+		Furthermore, we demonstrate that it is possible to train a group-fair model under the MDP constraint and introduce a group fairness algorithm named Fairness Through Matching (FTM), which aims to make predictions similar for matched individuals.
+		Through experiments on benchmark datasets, we confirm that FTM successfully trains group-fair models.
+		In particular, we observe that FTM outperforms existing algorithms in terms of fairness within subsets of the data.
+		{% elif algorithm_name == 'slide' %}
+		We investigate the validity of existing surrogate fairness constraints and propose a new surrogate fairness constraint called SLIDE, which is computationally feasible and asymptotically valid in the sense that the learned model satisfies the fairness constraint asymptotically and achieves a fast convergence rate.
+		Numerical experiments confirm that the SLIDE works well for various benchmark datasets.
+		{% endif %}
+	</section>
+	<br><br>
+	<h2>Performance metrics</h2>
+	<section>
+		<div class="table-wrapper">
+			<table>
+				<thead>
+					<tr>
+						<th>Attribute</th>
+						<th>Original Value</th>
+						<th>Mitigated Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Accuracy</td>
+						{% if original.acc >= mitigated.acc %}
+							<td><b>{{ original.acc }}</b></td>
+							<td>{{ mitigated.acc }}</td>
+						{% else %}
+							<td>{{ original.acc }}</td>
+							<td><b>{{ mitigated.acc }}</b></td>
+						{% endif %}
+					</tr>
+					<tr>
+						<td>DP</td>
+						{% if original.dp >= mitigated.dp %}
+							<td><b>{{ original.dp }}</b></td>
+							<td>{{ mitigated.dp }}</td>
+						{% else %}
+							<td>{{ original.dp }}</td>
+							<td><b>{{ mitigated.dp }}</b></td>
+						{% endif %}
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+{% endblock %}

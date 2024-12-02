@@ -1,0 +1,203 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block body_content %}
+<h1 class="major">Algorithm selection</h1>
+<!-- Text -->
+	<section>
+		<ul class="alt">
+			<li><b>Dataset</b>: {{ data_name }}</li>
+		</ul>
+	</section>
+	<section>
+		<form id="algorithmForm" method="post" enctype="multipart/form-data">
+			<h2>Preprocessing</h2>
+				<ul class="alt">
+					<li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{ DisparateImpactRemover }}" name="algorithm" value= "{{ DisparateImpactRemover }}">
+								<label class="tooltip" for="{{ DisparateImpactRemover }}">Disparate Impact Remover
+									<span class="tooltiptext tooltip-right">
+										Disparate Impact is a metric to evaluate fairness. It compares the proportion of individuals that receive a positive output for two groups: an unprivileged group and a privileged group.
+									</span>
+								</label>
+						</div>
+					</li>
+					<li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{LearningFairRepresentation}}" name="algorithm" value="{{LearningFairRepresentation}}">
+								<label class="tooltip" for="{{LearningFairRepresentation}}">Learning Fair Representation
+									<span class="tooltiptext tooltip-right">
+										Learning fair representations is a pre-processing technique that finds a latent representation which encodes the data well but obfuscates information about protected attributes.
+									</span>
+								</label>
+						</div>
+					</li>
+					<li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{ Reweighing }}" name="algorithm" value= "{{ Reweighing }}" >
+								<label class="tooltip" for="{{ Reweighing }}">Reweighing
+									<span class="tooltiptext tooltip-right">
+										Reweighing is a preprocessing technique that Weights the examples in each (group, label) combination differently to ensure fairness before classification.
+									</span>
+								</label>
+						</div>
+					</li>
+					<li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{ OptimPreproc }}" name="algorithm" value= "{{ OptimPreproc }}" >
+								<label class="tooltip" for="{{ OptimPreproc }}">Optim Preproc
+									<span class="tooltiptext tooltip-right">
+										Optimized preprocessing is a preprocessing technique that learns a probabilistic transformation that edits the features and labels in the data with group fairness, individual distortion, and data fidelity constraints and objectives.
+									</span>
+								</label>
+						</div>
+					</li>
+					<li>
+						<div class="col-4 col-12-small">
+							<input type="radio" id="{{FairStreamingPCA}}" name="algorithm" value="{{FairStreamingPCA}}">
+							<label class="tooltip" for="{{FairStreamingPCA}}">Fair Streaming PCA
+								<span class="tooltiptext tooltip-right">
+									<!-- 고차원의 데이터를 공정하고 효율적으로 차원 축소하기 위한 k-PCA 알고리즘의 일종으로, 잡음 거듭제곱법 (noisy power method)에 기반하여, 각 집단의 평균 차이를 없애고 공분산 차이의 상위 고유공간을 무시하면서도 차원 축소된 데이터의 분산을 크게 만드는 정사영을 찾는 것을 목표로 하는 알고리즘입니다. -->
+									It is a type of k-PCA algorithm designed for fair and efficient dimensionality reduction of high-dimensional data. Based on the "noisy power method," it aims to find a projection that maximizes the variance in the reduced-dimension data while eliminating mean differences between groups and disregarding the primary eigenspace of covariance differences.
+								</span>
+							</label>
+						</div>
+					</li>
+				</ul>
+			<h2>Inprocessing</h2>
+				<ul class="alt">
+					<!-- <li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{GerryFairClassifier}}" name="algorithm" value="{{GerryFairClassifier}}">
+								<label class="tooltip" for="{{GerryFairClassifier}}">Gerry fair classifier
+									<span class="tooltiptext tooltip-right">
+										Gerry fair classifier is an algorithm for learning classifiers that are fair with respect to rich subgroups. Rich subgroups are defined by (linear) functions over the sensitive attributes, and fairness notions are statistical: false positive, false negative, and statistical parity rates. This implementation uses a max of two regressions as a cost-sensitive classification oracle, and supports linear regression, support vector machines, decision trees, and kernel regression.
+									</span>
+								</label>
+						</div>
+					</li> -->
+					<li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{MetaFairClassifier}}" name="algorithm" value="{{MetaFairClassifier}}">
+								<label class="tooltip" for="{{MetaFairClassifier}}">Meta Fair Classifier
+									<span class="tooltiptext tooltip-right">
+										The meta algorithm here takes the fairness metric as part of the input and returns a classifier optimized w.r.t. that fairness metric.
+									</span>
+								</label>
+						</div>
+					</li>
+					<li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{PrejudiceRemover}}" name="algorithm" value="{{PrejudiceRemover}}">
+								<label class="tooltip" for="{{PrejudiceRemover}}">Prejudice Remover
+									<span class="tooltiptext tooltip-right">
+										Prejudice remover is an in-processing technique that adds a discrimination-aware regularization term to the learning objective.
+									</span>
+								</label>
+						</div>
+					</li>
+					<li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{ExponentiatedGradientReduction}}" name="algorithm" value="{{ExponentiatedGradientReduction}}">
+								<label class="tooltip" for="{{ExponentiatedGradientReduction}}">Exponentiated Gradient Reduction
+									<span class="tooltiptext tooltip-right">
+										Exponentiated gradient reduction is an in-processing technique that reduces fair classification to a sequence of cost-sensitive classification problems, returning a randomized classifier with the lowest empirical error subject to fair classification constraints.
+									</span>
+								</label>
+						</div>
+					</li>
+					<!-- <li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{KernerlDensityEstimation}}" name="algorithm" value="{{KernerlDensityEstimation}}">
+								<label class="tooltip" for="{{KernerlDensityEstimation}}">Kernel density estimation
+									<span class="tooltiptext tooltip-right">
+										The algorithm proposes a kernel density estimation (KDE) method to ensure fairness, presenting KDE-based fairness metrics (DDP and DEO) as differentiable functions with respect to model parameters. Through this approach, the algorithm addresses the fairness assurance problem of the model as an optimization problem with respect to model parameters, providing a solution through gradient descent.
+									</span>
+								</label>
+						</div>
+					</li> -->
+					<li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{ FTM }}" name="algorithm" value="{{ FTM }}">
+								<label class="tooltip" for="{{ FTM }}"> FTM
+									<span class="tooltiptext tooltip-right">
+										An inprocessing algorithm for training fair classifier based on a new fairness measure and transport map.
+									</span>
+								</label>
+						</div>
+					</li>
+					<li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{ SLIDE }}" name="algorithm" value="{{ SLIDE }}">
+								<label class="tooltip" for="{{ SLIDE }}"> SLIDE
+									<span class="tooltiptext tooltip-right">
+										A new surrogate fairness constraint which is computationally feasible and asymptotically valid in the sense that the learned model satisfies the fairness constraint asymptotically and achieves a fast convergence rate.
+									</span>
+								</label>
+						</div>
+					</li>
+					<!-- <li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{ AdversarialDebiasing }}" name="algorithm" value="{{ AdversarialDebiasing }}">
+								<label class="tooltip" for="{{ AdversarialDebiasing }}"> Adversarial Debiasing
+									<span class="tooltiptext tooltip-right"> AdversarialDebiasing
+										aif360
+									</span>
+								</label>
+						</div>
+					</li> -->
+				</ul>
+			<h2>Postprocessing</h2>
+				<ul class="alt">
+					<li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{CalibratedEqOdds}}" name="algorithm" value="{{CalibratedEqOdds}}">
+								<label class="tooltip" for="{{CalibratedEqOdds}}">Calibrated Equalized Odds
+									<span class="tooltiptext tooltip-right">
+										Calibrated equalized odds postprocessing is a post-processing technique that optimizes over calibrated classifier score outputs to find probabilities with which to change output labels with an equalized odds objective.
+									</span>
+								</label>
+						</div>
+					</li>
+					<li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{ EqualizedOdds }}" name="algorithm" value="{{ EqualizedOdds }}">
+								<label class="tooltip" for="{{ EqualizedOdds }}">Equalized Odds
+									<span class="tooltiptext tooltip-right">
+										Equalized odds postprocessing is a post-processing technique that solves a linear program to find probabilities with which to change output labels to optimize equalized odds.
+									</span>
+								</label>
+						</div>
+					</li>
+					<li>
+						<div class="col-4 col-12-small">
+								<input type="radio" id="{{RejectOptionClassifier}}" name="algorithm" value="{{RejectOptionClassifier}}">
+								<label class="tooltip" for="{{RejectOptionClassifier}}"> Reject Option Classifier
+									<span class="tooltiptext tooltip-right">
+										Reject option classification is a postprocessing technique that gives favorable outcomes to unpriviliged groups and unfavorable outcomes to priviliged groups in a confidence band around the decision boundary with the highest uncertainty.
+									</span>
+								</label>
+						</div>
+					</li>
+				</ul>
+
+			<!-- Submit button -->
+				<div class="col-12">
+					<input type="submit" onclick="selectAlgSubmitForm()" value="Mitigation start" class="primary" />
+				</div>
+		</form>
+	</section>
+	<script>
+		function selectAlgSubmitForm(){
+			const selectedData = document.querySelector('input[name="algorithm"]:checked');
+			if (selectedData){
+				document.getElementById('algorithmForm').action = '/app/mitigation/{{data_name}}/'+selectedData.value+'/';
+				document.getElementById('algorithmForm').submit();
+			}
+			else{
+				alert("Please select an option before submitting.");
+			}
+		}
+	</script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block body_content %}
+<h1 class="major">Algorithm selection</h1>
+<!-- Text -->
+<section>
+	<ul class="alt">
+		<li><b>Data Type</b>: {{ data_type }} </li>
+		<li><b>Dataset</b>: {{ data_name }} </li>
+	</ul>
+</section>
+<section>
+	<form id="algorithmForm" method="post" enctype="multipart/form-data">
+		<h2>Inprocessing</h2>
+			<ul class="alt">
+				{% if data_name == "celeba" %}
+				<li>
+					<div class="col-4 col-12-small">
+							<input type="radio" id="{{FairDimensionFiltering}}" name="algorithm" value="{{FairDimensionFiltering}}">
+							<label class="tooltip" for="{{FairDimensionFiltering}}">
+								Fair Dimension Filtering
+							</label>
+					</div>
+				</li>
+				{% endif %}
+				{% if data_name == "pubfig" %}
+				<li>
+					<div class="col-4 col-12-small">
+							<input type="radio" id="{{FairFeatureDistillation}}" name="algorithm" value="{{FairFeatureDistillation}}">
+							<label class="tooltip" for="{{FairFeatureDistillation}}">
+								Fair Feature Distillation
+								<span class="tooltiptext tooltip-right">
+									Fair Feature Distillation is a systematic approach for reducing algorithmic biases in visual recognition tasks, employing a novel technique that combines knowledge distillation and fairness considerations.
+								</span></label>
+					</div>
+				</li>
+				<li>
+					<div class="col-4 col-12-small">
+							<input type="radio" id="{{LearningFromFairness}}" name="algorithm" value="{{LearningFromFairness}}">
+							<label class="tooltip" for="{{LearningFromFairness}}">
+								Learning From Fairness
+								<span class="tooltiptext tooltip-right">
+									Learning from fairness is a method for addressing neural network bias by leveraging general human knowledge through a failure-based debiasing scheme. This involves intentionally training a biased network and simultaneously debiasing another network by focusing on samples that contradict the prejudice of the biased network.
+								</span></label>
+					</div>
+				</li>
+				{% endif %}
+			</ul>
+		<!-- Submit button -->
+			<div class="col-12">
+				<input type="submit" onclick="selectAlgSubmitForm()" value="Mitigation start" class="primary" />
+			</div>
+	</form>
+</section>
+	<script>
+		function selectAlgSubmitForm(){
+			const selectedData = document.querySelector('input[name="algorithm"]:checked');
+			if (selectedData){
+				document.getElementById('algorithmForm').action = '/app/mitigation/{{data_name}}/'+selectedData.value+'/';
+				document.getElementById('algorithmForm').submit();
+			}
+			else{
+				alert("Please select an option before submitting.");
+			}
+		}
+	</script>
+{% endblock %}

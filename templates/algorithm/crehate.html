@@ -1,0 +1,170 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load mathfilters %}
+
+{% block header_content %}
+<ul>
+	<li><a href="/app">Home</a></li>
+	<li><a href="/app/datatype/">Data</a></li>
+	<li><a href="#">Metrics</a></li>
+	<li><a href="#">Algorithms</a></li>
+	<li><a href="#" class="active">Result</a></li>
+</ul>
+{% endblock %}
+
+{% block body_content %}
+<h1 class="major">Results</h1>
+<!-- Text -->
+<section>
+	<ul class="alt">
+		<li><b>Context</b>: {{ context }}</li>
+	</ul>
+{% if simple == "False" %}
+	{% if persona == "False" %}
+	<ul class="alt">
+		<li><b>Prompt 0</b> Answer if this post is hate or not with a single alphabet letter among given answer choices a and b.</li>
+		<li><b>Prompt 1</b> Given a POST from online, answer if it is 'Hate Speech' or 'Non-Hate Speech'. Answer with only one single alphabet between 'a' and 'b', with no other description.</li>
+		<li><b>Prompt 2</b> Would you consider this post as a hate speech? Give an answer in a single alphabet only.</li>
+		<li><b>Prompt 3</b> Do you think this is a hate speech? Answer with only one single alphabet between 'a' and 'b', with no other description.</li>
+		<li><b>Prompt 4</b> Consider yourself as a very typical person. Would you consider this post as a hate speech? Give an answer in a single alphabet only.</li>
+	</ul>
+		<hr>
+		<b>{"a": "Hate", "b": "Non-hate"} </b>
+		<li><b>prompt 0</b> : {{result.prmpt_0.hn}}</li>
+		<li><b>prompt 1</b> : {{result.prmpt_1.hn}}</li>
+		<li><b>prompt 2</b> : {{result.prmpt_2.hn}}</li>
+		<li><b>prompt 3</b> : {{result.prmpt_3.hn}}</li>
+		<li><b>prompt 4</b> : {{result.prmpt_4.hn}}</li>
+		<b> {"a": "Non-hate", "b": "Hate"} </b>
+		<li><b>prompt 0</b> : {{result.prmpt_0.nh}}</li>
+		<li><b>prompt 1</b> : {{result.prmpt_1.nh}}</li>
+		<li><b>prompt 2</b> : {{result.prmpt_2.nh}}</li>
+		<li><b>prompt 3</b> : {{result.prmpt_3.nh}}</li>
+		<li><b>prompt 4</b> : {{result.prmpt_4.nh}}</li>
+	{% elif persona == "True" %}
+	<ul class="alt">
+		<li><b>Prompt 0</b> Answer if this post is hate or not in <i>country</i> with a single alphabet letter among given answer choices a and b.</li>
+		<li><b>Prompt 1</b> Given a POST from online, answer if it is 'Hate Speech' or 'Non-Hate Speech' in <i>country</i>. Answer with only one single alphabet between 'a' and 'b', with no other description.</li>
+		<li><b>Prompt 2</b> As a person raised up in <i>country</i>, would you consider this post as a hate speech? Give an answer in a single alphabet only.</li>
+		<li><b>Prompt 3</b> You are from <i>country</i>. Do you think this is a hate speech? Answer with only one single alphabet between 'a' and 'b', with no other description.</li>
+		<li><b>Prompt 4</b> Consider yourself as a very typical person in <i>country</i>. Would you consider this post as a hate speech? Give an answer in a single alphabet only.</li>
+	</ul>
+		<hr>
+		<b>hn</b>
+		<table>
+			<thead>
+				<tr>
+					<th>Prompt no.</th>
+					<th>Australia</th>
+					<th>United States</th>
+					<th>United Kingdom</th>
+					<th>South Africa</th>
+					<th>Singapore</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><b>0</b></td>
+					<td>{{ result.prmpt_0.Australia.hn }}</td>
+					<td>{{ result.prmpt_0.UnitedStates.hn }}</td>
+					<td>{{ result.prmpt_0.UnitedKingdom.hn }}</td>
+					<td>{{ result.prmpt_0.SouthAfrica.hn }}</td>
+					<td>{{ result.prmpt_0.Singapore.hn }}</td>
+				</tr>
+				<tr>
+					<td><b>1</b></td>
+					<td>{{ result.prmpt_1.Australia.hn }}</td>
+					<td>{{ result.prmpt_1.UnitedStates.hn }}</td>
+					<td>{{ result.prmpt_1.UnitedKingdom.hn }}</td>
+					<td>{{ result.prmpt_1.SouthAfrica.hn }}</td>
+					<td>{{ result.prmpt_1.Singapore.hn }}</td>
+				</tr>
+				<tr>
+					<td><b>2</b></td>
+					<td>{{ result.prmpt_2.Australia.hn }}</td>
+					<td>{{ result.prmpt_2.UnitedStates.hn }}</td>
+					<td>{{ result.prmpt_2.UnitedKingdom.hn }}</td>
+					<td>{{ result.prmpt_2.SouthAfrica.hn }}</td>
+					<td>{{ result.prmpt_2.Singapore.hn }}</td>
+				</tr>
+				<tr>
+					<td><b>3</b></td>
+					<td>{{ result.prmpt_3.Australia.hn }}</td>
+					<td>{{ result.prmpt_3.UnitedStates.hn }}</td>
+					<td>{{ result.prmpt_3.UnitedKingdom.hn }}</td>
+					<td>{{ result.prmpt_3.SouthAfrica.hn }}</td>
+					<td>{{ result.prmpt_3.Singapore.hn }}</td>
+				</tr>
+				<tr>
+					<td><b>4</b></td>
+					<td>{{ result.prmpt_4.Australia.hn }}</td>
+					<td>{{ result.prmpt_4.UnitedStates.hn }}</td>
+					<td>{{ result.prmpt_4.UnitedKingdom.hn }}</td>
+					<td>{{ result.prmpt_4.SouthAfrica.hn }}</td>
+					<td>{{ result.prmpt_4.Singapore.hn }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<b>nh</b>
+		<table>
+			<thead>
+				<tr>
+					<th>Prompt no.</th>
+					<th>Australia</th>
+					<th>United States</th>
+					<th>United Kingdom</th>
+					<th>South Africa</th>
+					<th>Singapore</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><b>0</b></td>
+					<td>{{ result.prmpt_0.Australia.nh }}</td>
+					<td>{{ result.prmpt_0.UnitedStates.nh }}</td>
+					<td>{{ result.prmpt_0.UnitedKingdom.nh }}</td>
+					<td>{{ result.prmpt_0.SouthAfrica.nh }}</td>
+					<td>{{ result.prmpt_0.Singapore.nh }}</td>
+				</tr>
+				<tr>
+					<td><b>1</b></td>
+					<td>{{ result.prmpt_1.Australia.nh }}</td>
+					<td>{{ result.prmpt_1.UnitedStates.nh }}</td>
+					<td>{{ result.prmpt_1.UnitedKingdom.nh }}</td>
+					<td>{{ result.prmpt_1.SouthAfrica.nh }}</td>
+					<td>{{ result.prmpt_1.Singapore.nh }}</td>
+				</tr>
+				<tr>
+					<td><b>2</b></td>
+					<td>{{ result.prmpt_2.Australia.nh }}</td>
+					<td>{{ result.prmpt_2.UnitedStates.nh }}</td>
+					<td>{{ result.prmpt_2.UnitedKingdom.nh }}</td>
+					<td>{{ result.prmpt_2.SouthAfrica.nh }}</td>
+					<td>{{ result.prmpt_2.Singapore.nh }}</td>
+				</tr>
+				<tr>
+					<td><b>3</b></td>
+					<td>{{ result.prmpt_3.Australia.nh }}</td>
+					<td>{{ result.prmpt_3.UnitedStates.nh }}</td>
+					<td>{{ result.prmpt_3.UnitedKingdom.nh }}</td>
+					<td>{{ result.prmpt_3.SouthAfrica.nh }}</td>
+					<td>{{ result.prmpt_3.Singapore.nh }}</td>
+				</tr>
+				<tr>
+					<td><b>4</b></td>
+					<td>{{ result.prmpt_4.Australia.nh }}</td>
+					<td>{{ result.prmpt_4.UnitedStates.nh }}</td>
+					<td>{{ result.prmpt_4.UnitedKingdom.nh }}</td>
+					<td>{{ result.prmpt_4.SouthAfrica.nh }}</td>
+					<td>{{ result.prmpt_4.Singapore.nh }}</td>
+				</tr>
+			</tbody>
+		</table>
+		{% endif %}
+{% elif simple == "True" %}
+	<li><b>{"a": "Hate", "b": "Non-hate"}</b>: {{result.hn}}</li>
+	<li><b>{"a": "Non-hate", "b": "Hate"}</b>: {{result.nh}}</li>
+{% endif %}
+</section>
+{% endblock %}

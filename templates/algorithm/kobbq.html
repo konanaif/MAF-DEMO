@@ -1,0 +1,39 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load mathfilters %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#" class="active">Algorithms</a></li>
+		<li><a href="#">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h1 class="major">Results</h1>
+	In the prompt provided to the LLM, we rearrange the order of the three choices A, B and C.
+	This allows users to determine whether the LLM's responses vary depending on the order of the choices.
+	<br><br>
+	<section>
+		<ul class="alt">
+			<li><b>1. </b>: {{ result.res_0.prompt }}</li>
+			<li><b> Answer </b>: {{ result.res_0.truth }}</li>
+			<li><b> Prediction </b>: {{ result.res_0.prediction }}</li>
+		</ul>
+
+		<ul class="alt">
+			<li><b>2. </b>: {{ result.res_1.prompt }}</li>
+			<li><b> Answer </b>: {{ result.res_1.truth }}</li>
+			<li><b> Prediction </b>: {{ result.res_1.prediction }}</li>
+		</ul>
+
+		<ul class="alt">
+			<li><b>3. </b>: {{ result.res_2.prompt }}</li>
+			<li><b> Answer </b>: {{ result.res_2.truth }}</li>
+			<li><b> Prediction </b>: {{ result.res_2.prediction }}</li>
+		</ul>
+	</section>
+{% endblock %}

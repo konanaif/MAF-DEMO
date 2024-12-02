@@ -1,0 +1,64 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#" class="active">Algorithms</a></li>
+		<li><a href="#">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+The two primary errors associated with the <b>Representativeness Heuristic</b> are base rate neglect and the conjunction fallacy.
+These errors illustrate how people often make statistically incorrect judgments under the influence of representativeness heuristic.
+<br>
+<b>1. Base Rate Neglect</b> <br>
+This error occurs when individuals ignore the base rate (the general frequency or probability of an event in the population) while focusing on specific details or characteristics.
+<br>
+<b>2. Conjunction Fallacy</b> <br>
+This error involves the mistaken belief that the probability of two events occurring together is higher than the probability of one event occurring alone.
+However, mathematically, the conjunction of two events can never exceed the likelihood of either event alone.
+<br><br>
+<h2 class="major">Enter Input</h2>
+	<section>
+		For an input, please refer to <a href="https://github.com/jongwonryu/RH/raw/main/RH_dataset.xlsx"> dataset for Representativeness Heuristic</a>
+		<br><br>
+		<ul class="alt">
+			<form id="rhInputForm" action="{{ result_url }}" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+				<label for="question">Enter your question</label>
+				<b>- Example: </b> A person comes to the movies alone. Which is more probable? A) This person is a man. B) This person is a single man. The answer is
+				<input type="text" id="question" name="question">
+				<br>
+				<label for="ask_prompt"> Select one of prompt</label>
+				By using <b>Prompt 1</b>, we can evaluate whether the model understands the relationship between the provided answers.
+				Both a correctness of the answers and a logical consistency among answers are the key focus of the evaluation.
+				A <b>Prompt 2</b> can be used to evaluate the model's ability to make correct inferences without being influenced by base rates.
+				If the model accurately identifies relationships such as 'A is a subset of B' or 'A is more specific than B', the inference is deemed correct even if base rates are not considered.
+				<br><br>
+				<li>
+				<input type="radio" id="prompt_1" name="prompt_no" value="1">
+				<label for="prompt_1">Prompt 1: considering the probability of A and B</label>
+				</li>
+				<li>
+				<input type="radio" id="prompt_2" name="prompt_no" value="2">
+				<label for="prompt_2">Prompt 2: considering the inclusion relationship of A and B</label>
+				</li>
+				<br><br>
+				<input type="submit" name="whole_or_single" value="submit" class="primary" />
+			</form>
+		</ul>
+	</section>
+	<script>
+		function showLoadingPage(){
+			const inputQuestion = document.querySelector('input[name="question"]').value;
+			const promptNum = document.querySelector('input[name="prompt_no"]').value;
+			if (inputText && promptNum){
+				document.getElementById('rhInputForm').submit();
+			}
+		}
+	</script>
+{% endblock %}

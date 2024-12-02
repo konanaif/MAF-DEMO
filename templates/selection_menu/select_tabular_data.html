@@ -1,0 +1,182 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="#" class="active">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h1 class="major">Tabular Data Selection</h1>
+<section>
+	<!-- Preset dataset -->
+		<form id="metricForm" action="/metric/" method="post" enctype="multipart/form-data">
+				<ul class="alt">
+					<li>
+						<div class="col-4 col-12-small">
+							<input type="radio" id="compas" name="data_name" value="compas">
+							<label for="compas">COMPAS (ProPublica racidicism)</label>
+						</div>
+						<div class="description">
+							<span class="definition" onclick="showDefinition('Protected attribute')">Predict a criminal defendant’s likelihood of reoffending.</span>
+								<br><br>
+								<span class="definition" onclick="showDefinition('Protected attribute')">Protected Attributes:</span>
+								<br>
+
+									- <b>Sex</b>, privileged: <b><i>Female</i></b>, unprivileged: <b><i>Male</i></b><br>
+									- <b>Race</b>, privileged: <b><i>Caucasian</i></b>, unprivileged: <b><i>Not Caucasian</i></b><br>
+
+							<span><a href="https://github.com/propublica/compas-analysis" target="_blank">Learn more</a></span>
+							<br><br>
+						</div>
+					</li>
+					<li>
+						<div class="col-4 col-12-small">
+							<input type="radio" id="german" name="data_name" value="german">
+							<label for="german">German credit scoring</label>
+						</div>
+						<div class="description">
+							<span class="definition" onclick="showDefinition('Protected attribute')">Predict an individual's credit risk.</span>
+								<br><br>
+							<span class="definition" onclick="showDefinition('Protected attribute')">Protected Attributes:</span>
+							<br>
+
+								- <b>Sex</b>, privileged: <b><i>Male</i></b>, unprivileged: <b><i>Female</i></b><br>
+								- <b>Age</b>, privileged: <b><i>Old</i></b>, unprivileged: <b><i>Young</i></b><br>
+
+						<span><a href="https://archive.ics.uci.edu/ml/datasets/Statlog+%28German+Credit+Data%29" target="_blank">Learn more</a></span>
+						<br><br>
+						</div>
+					</li>
+					<li>
+						<div class="col-4 col-12-small">
+							<input type="radio" id="adult" name="data_name" value="adult">
+							<label for="adult">Adult census income</label>
+						</div>
+						<div class="description">
+							<span class="definition" onclick="showDefinition('Protected attribute')">Predict whether income exceeds $50K/yr based on census data.</span>
+								<br><br>
+							<span class="definition" onclick="showDefinition('Protected attribute')">Protected Attributes:</span>
+							<br>
+
+								- <b>Race</b>, privileged: <b><i>White</i></b>, unprivileged: <b><i>Non-white</i></b><br>
+
+								- <b>Sex</b>, privileged: <b><i>Male</i></b>, unprivileged: <b><i>Female</i></b><br>
+
+						<span><a href="https://archive.ics.uci.edu/ml/datasets/adult" target="_blank">Learn more</a></span>
+						</div>
+					</li>
+				</ul>
+			<h2>Option</h2>
+				<div class="col-12">
+					<input type="submit" onclick="tsneSubmitForm()" value="Check t-SNE (sample_size=50)" class="primary" />
+				</div>
+				<br>
+				<div class="col-12">
+					<input type="submit" onclick="selectAlgoSubmitForm()" value="Select Mitigation Algorithm" class="primary" />
+				</div>
+		</form>
+</section>
+<script>
+	function tsneSubmitForm(){
+		const selectedData = document.querySelector('input[name="data_name"]:checked');
+		if (selectedData){
+			document.getElementById('metricForm').action = '/app/metric/tabular/'+selectedData.value+'/';
+			document.getElementById('metricForm').submit();
+		}
+		else{
+			alert("Please select an option before submitting.");
+		}
+	}
+	function selectAlgoSubmitForm(){
+		const selectedData = document.querySelector('input[name="data_name"]:checked');
+		if (selectedData){
+			document.getElementById('metricForm').action = '/app/algorithm/tabular/'+selectedData.value+'/';
+			document.getElementById('metricForm').submit();
+		}
+		else{
+			alert("Please select an option before submitting.");
+		}
+	}
+</script>
+<section>
+	<h2>Custom<span class="info-icon" onclick="showModal()">ⓘ</span></h2>
+	<form action="/file" method="post" enctype="multipart/form-data">
+		<div class="col-4 col-12-small">
+			<label for="file"><input type="file" name="file" id="file" />
+		</label>
+		</div>
+		<br>
+		<div class="col-12">
+			<input type="submit" value="Check metrics" class="primary" />
+		</div>
+	</form>
+</section>
+<div id="myModal" class="modal">
+	<div class="custom-modal-content">
+		<span class="close" onclick="closeModal()">&times;</span>
+		<div id="modalTitle"><h3>Example</h3></div>
+		<p>In custom data, specify the <b><i>Target</i></b> and <b><i>Bias</i></b> columns in the CSV file.
+			<br>The <b><i>Target</i></b> column is used for binary classification predictions, where <u><i>favorable classes are labeled as 1</i></u>.
+			<br><b><i>Bias</i></b> is the protected attribute column, and <u><i>privileged classes are labeled as 1</i></u>.
+			<br><br>Here is an example, custom.csv<br>
+		<table>
+				<thead>
+					<tr>
+						<th>col1</th>
+						<th>col2</th>
+						<th>Bias</th>
+						<th>Target</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>0.268682</td>
+						<td>0.538388</td>
+						<td>0</td>
+						<td>1</td>
+					</tr>
+					<tr>
+						<td>0.811562</td>
+						<td>0.111512</td>
+						<td>0</td>
+						<td>0</td>
+					</tr>
+					<tr>
+						<td>0.347282</td>
+						<td>0.660011</td>
+						<td>1</td>
+						<td>1</td>
+					</tr>
+					<tr>
+						<td>0.968353</td>
+						<td>0.615347</td>
+						<td>1</td>
+						<td>0</td>
+			</table>
+		</tr>
+		<h3>Example with the COMPAS dataset:</h3>
+		<i><b>Target</b> = two_year_recid</i>
+		<br><i><b>Favorable classes</b> = No recid</i>
+		<br><i><b>Bias</b> = ['sex', 'race']</i>
+		<br><i><b>Privileged classes</b> = [['Female'], ['Caucasian']]</i>
+	</tbody>
+	</div>
+</div>
+</div>
+</section>
+	<script>
+	function showModal() {
+		document.getElementById('myModal').style.display = 'block';
+	}
+
+	function closeModal() {
+		document.getElementById('myModal').style.display = 'none';
+	}
+	</script>
+{% endblock %}

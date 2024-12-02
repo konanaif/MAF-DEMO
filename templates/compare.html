@@ -1,0 +1,509 @@
+{% load static %}
+{% load mathfilters %}
+
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Compare Models - MAF</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+		<link rel="stylesheet" href="{% static 'assets/css/modal.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="/app" class="title">MAF</a>
+				<nav>
+					<ul>
+						<li><a href="/app">Home</a></li>
+						<li><a href="/app/data">Data</a></li>
+						<li><a href="/app/metric/{{ data_name }}">Metrics</a></li>
+						<li><a href="/app/algorithm/{{ data_name }}">Algorithms</a></li>
+						<li><a href="#" class="active">Result</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<div class="row">
+								<div class="col-6 col-12-medium">
+									<ul class="actions">
+										<li><a href="/app" class="button fit">Home</a></li>
+										<li><a href="/app/data" class="button fit">Data selection</a></li>
+									</ul>
+								</div>
+							</div>
+							<h1 class="major">Compare models</h1>
+							<!-- Text -->
+								<section>
+									<ul class="alt">
+										<li><b>Dataset</b>: {{ data_name }}</li>
+										<li><b>Protected attribute</b>: {{ original.protected }}</li>
+									</ul>
+								</section>
+
+							<!-- Table -->
+								<h2>Tables of metrics</h2>
+								<section>
+									<h3>A. Performance metrics</h3>
+									<div class="table-wrapper">
+										<table>
+											<thead>
+												<tr>
+													<th>Attribute</th>
+													<th>Original Value</th>
+													<th>Mitigated Value</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('pm', 'Recall')">Recall</td>
+													{% if original.recall >= mitigated.recall %}
+														<td><b>{{ original.recall }}</b></td>
+														<td>{{ mitigated.recall }}</td>
+													{% else %}
+														<td>{{ original.recall }}</td>
+														<td><b>{{ mitigated.recall }}</b></td>
+													{% endif %}
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('pm', 'TNR')">True negative rate</td>
+													{% if original.true_negative_rate >= mitigated.true_negative_rate %}
+														<td><b>{{ original.true_negative_rate }}</b></td>
+														<td>{{ mitigated.true_negative_rate }}</td>
+													{% else %}
+														<td>{{ original.true_negative_rate }}</td>
+														<td><b>{{ mitigated.true_negative_rate }}</b></td>
+													{% endif %}
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('pm', 'FPR')">False positive rate</td>
+													{% if original.false_positive_rate >= mitigated.false_positive_rate %}
+														<td>{{ original.false_positive_rate }}</td>
+														<td><b>{{ mitigated.false_positive_rate }}</b></td>
+													{% else %}
+														<td><b>{{ original.false_positive_rate }}</b></td>
+														<td>{{ mitigated.false_positive_rate }}</td>
+													{% endif %}
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('pm', 'FNR')">False negative rate</td>
+													{% if original.false_negative_rate >= mitigated.false_negative_rate %}
+														<td>{{ original.false_negative_rate }}</td>
+														<td><b>{{ mitigated.false_negative_rate }}</b></td>
+													{% else %}
+														<td><b>{{ original.false_negative_rate }}</b></td>
+														<td>{{ mitigated.false_negative_rate }}</td>
+													{% endif %}
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('pm', 'precision')">Precision</td>
+													{% if original.precision >= mitigated.precision %}
+														<td><b>{{ original.precision }}</b></td>
+														<td>{{ mitigated.precision }}</td>
+													{% else %}
+														<td>{{ original.precision }}</td>
+														<td><b>{{ mitigated.precision }}</b></td>
+													{% endif %}
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('pm', 'NPV')">Negative predictive value</td>
+													{% if original.negative_predictive_value >= mitigated.negative_predictive_value %}
+														<td><b>{{ original.negative_predictive_value }}</b></td>
+														<td>{{ mitigated.negative_predictive_value }}</td>
+													{% else %}
+														<td>{{ original.negative_predictive_value }}</td>
+														<td><b>{{ mitigated.negative_predictive_value }}</b></td>
+													{% endif %}
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('pm', 'FDR')">False discovery rate</td>
+													{% if original.false_discovery_rate >= mitigated.false_discovery_rate %}
+														<td>{{ original.false_discovery_rate }}</td>
+														<td><b>{{ mitigated.false_discovery_rate }}</b></td>
+													{% else %}
+														<td><b>{{ original.false_discovery_rate }}</b></td>
+														<td>{{ mitigated.false_discovery_rate }}</td>
+													{% endif %}
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('pm', 'FOR')">False omission rate</td>
+													{% if original.false_omission_rate >= mitigated.false_omission_rate %}
+														<td>{{ original.false_omission_rate }}</td>
+														<td><b>{{ mitigated.false_omission_rate }}</b></td>
+													{% else %}
+														<td><b>{{ original.false_omission_rate }}</b></td>
+														<td>{{ mitigated.false_omission_rate }}</td>
+													{% endif %}
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('pm', 'ACC')">Accuracy</td>
+													{% if original.accuracy >= mitigated.accuracy %}
+														<td><b>{{ original.accuracy }}</b></td>
+														<td>{{ mitigated.accuracy }}</td>
+													{% else %}
+														<td>{{ original.accuracy }}</td>
+														<td><b>{{ mitigated.accuracy }}</b></td>
+													{% endif %}
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</section>
+								<section>
+									<h3>B. Classification metrics</h3>
+									<div class="table-wrapper">
+										<table>
+											<thead>
+												<tr>
+													<th>Attribute</th>
+													<th>Original value</th>
+													<th>Mitigated value</th>
+													<td class="tooltip" onmouseover="showTooltip('bm', 'Fairness value')">Fairness value</td>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('bm', 'Error Rate')">Error rate</td>
+													{% if original.error_rate <= mitigated.error_rate %}
+														<td><b>{{ original.error_rate }}</b></td>
+														<td>{{ mitigated.error_rate }}</td>
+													{% else %}
+														<td>{{ original.error_rate }}</td>
+														<td><b>{{ mitigated.error_rate }}</b></td>
+													{% endif %}
+													<td></td>
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('bm', 'Average odds difference')">Average odds difference</td>
+													{% if absoriginal.average_odds_difference <= mitigated.average_odds_difference %}
+														<td><b>{{ original.average_odds_difference }}</b></td>
+														<td>{{ mitigated.average_odds_difference }}</td>
+													{% else %}
+														<td>{{ original.average_odds_difference }}</td>
+														<td><b>{{ mitigated.average_odds_difference }}</b></td>
+													{% endif %}
+													<td>0.0</td>
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('bm', 'Average abs odds difference')">Average abs odds difference</td>
+													{% if original.average_abs_odds_difference <= mitigated.average_abs_odds_difference %}
+														<td><b>{{ original.average_abs_odds_difference }}</b></td>
+														<td>{{ mitigated.average_abs_odds_difference }}</td>
+													{% else %}
+														<td>{{ original.average_abs_odds_difference }}</td>
+														<td><b>{{ mitigated.average_abs_odds_difference }}</b></td>
+													{% endif %}
+													<td>0.0</td>
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('bm', 'Selection rate')">Selection rate</td>
+														<td>{{ original.selection_rate }}</td>
+														<td>{{ mitigated.selection_rate }}</td>
+													<td></td>
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('bm', 'Disparate impact')">Disparate impact</td>
+													{% with originalValue=absoriginal.disparate_impact %}
+													{% endwith %}
+													{% with mitigatedValue=absmitigated.disparate_impact %}
+													{% endwith %}
+
+													{% if originalValue >= 1 or mitigatedValue >= 1 %}
+														{% with originalDiff=originalValue|sub:1 %}
+														{% endwith %}
+														{% with mitigatedDiff=mitigatedValue|sub:1 %}
+														{% endwith %}
+														{% if originalDiff <= mitigatedDiff %}
+															<td><b>{{ original.disparate_impact }}</b></td>
+															<td>{{ mitigated.disparate_impact }}</td>
+														{% else %}
+															<td>{{ original.disparate_impact }}</td>
+															<td><b>{{ mitigated.disparate_impact }}</b></td>
+														{% endif %}
+													{% else %}
+														{% if 1|sub:originalValue <= 1|sub:mitigatedValue %}
+															<td><b>{{ original.disparate_impact }}</b></td>
+															<td>{{ mitigated.disparate_impact }}</td>
+														{% else %}
+															<td>{{ original.disparate_impact }}</td>
+															<td><b>{{ mitigated.disparate_impact }}</b></td>
+														{% endif %}
+													{% endif %}
+													<td>1.0</td>
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('bm', 'Statistical parity difference')">Statistical parity difference</td>
+													{% if absoriginal.statistical_parity_difference <= absmitigated.statistical_parity_difference %}
+														<td><b>{{ original.statistical_parity_difference }}</b></td>
+														<td>{{ mitigated.statistical_parity_difference }}</td>
+													{% else %}
+														<td>{{ original.statistical_parity_difference }}</td>
+														<td><b>{{ mitigated.statistical_parity_difference }}</b></td>
+													{% endif %}
+													<td>0.0</td>
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('bm', 'Generalized entropy index')">Generalized entropy index</td>
+													{% if original.generalized_entropy_index <= mitigated.generalized_entropy_index %}
+														<td><b>{{ original.generalized_entropy_index }}</b></td>
+														<td>{{ mitigated.generalized_entropy_index }}</td>
+													{% else %}
+														<td>{{ original.generalized_entropy_index }}</td>
+														<td><b>{{ mitigated.generalized_entropy_index }}</b></td>
+													{% endif %}
+													<td>0.0</td>
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('bm', 'Theil index')">Theil index</td>
+													{% if original.theil_index <= mitigated.theil_index %}
+														<td><b>{{ original.theil_index }}</b></td>
+														<td>{{ mitigated.theil_index }}</td>
+													{% else %}
+														<td>{{ original.theil_index }}</td>
+														<td><b>{{ mitigated.theil_index }}</b></td>
+													{% endif %}
+													<td>0.0</td>
+												</tr>
+												<tr>
+													<td class="tooltip" onmouseover="showTooltip('bm', 'Equal opportunity difference')">Equal opportunity difference</td>
+													{% if absoriginal.equal_opportunity_difference <= absmitigated.equal_opportunity_difference %}
+														<td><b>{{ original.equal_opportunity_difference }}</b></td>
+														<td>{{ mitigated.equal_opportunity_difference }}</td>
+													{% else %}
+														<td>{{ original.equal_opportunity_difference }}</td>
+														<td><b>{{ mitigated.equal_opportunity_difference }}</b></td>
+													{% endif %}
+													<td>0.0</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</section>
+								<div id="chartmodal" class="modal">
+								  <div class="modal-content">
+									<span id="closenewModal" class="close">×</span>
+									<h2 id="chartmodalTitle"></h2>
+									<p id="chartmodalContent"></p>
+								  </div>
+								</div>
+								<br><br>
+
+							<!-- Chart -->
+								<h2>Charts of metrics</h2>
+								<section>
+									<h3>Performance measures</h3>
+									<figure class="highcharts-figure">
+										<div id="performance_bar" class="bar"></div>
+										<div id="performance_bar3d" class="bar3d"></div>
+										<div id="performance_spider" class="spider"></div>
+									</figure>
+								</section>
+								<br><br>
+								<section>
+									<h3>Bias measures</h3>
+									<figure class="highcharts-figure">
+										<div class="chart-container" style="display: flex;"></div>
+										<div class="gap1" style="height: 60px; background-color: #ffffff;"></div>
+										<div class="bar3d_chart_container" style="display: flex;"></div>
+										<div class="gap1" style="height: 60px; background-color: #ffffff;"></div>
+										<div class="test2" style="display: flex;"></div>
+										<div id="bias_spider" class="spider"></div>
+									</figure>
+								</section>
+								<br><br>
+								<div class="row">
+									<div class="col-6 col-12-medium">
+										<ul class="actions">
+											<li><a href="/app" class="button primary fit">Home</a></li>
+											<li><a href="/app/data" class="button fit">Data selection</a></li>
+										</ul>
+									</div>
+								</div>
+						</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}" ></script>
+			<script src="{% static 'assets/js/jquery.scrollex.min.js' %}" ></script>
+			<script src="{% static 'assets/js/jquery.scrolly.min.js' %}" ></script>
+			<script src="{% static 'assets/js/browser.min.js' %}" ></script>
+			<script src="{% static 'assets/js/breakpoints.min.js' %}" ></script>
+			<script src="{% static 'assets/js/util.js' %}" ></script>
+			<script src="{% static 'assets/js/main.js' %}" ></script>
+			<script src="{% static 'src/tooltip.js' %}" ></script>
+
+			<script type="text/javascript" src="https://code.highcharts.com/highcharts-3d.js"></script>
+			<script type="text/javascript" src="https://code.highcharts.com/highcharts-more.js"></script>
+			<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+			<script type="text/javascript" src="https://code.highcharts.com/modules/sankey.js"></script>
+			<script type="text/javascript" src="https://code.highcharts.com/modules/organization.js"></script>
+			<script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
+			<script type="text/javascript" src="{% static 'src/bias_chart.js' %}"></script>
+
+		<!-- Resource Script -->
+			<script type="text/javascript">
+				const performanceMeasure = {
+					original: [
+						{{ original.true_negative_rate }},
+						{{ original.false_positive_rate }},
+						{{ original.false_negative_rate }},
+						{{ original.recall }},
+						{{ original.precision }},
+						{{ original.negative_predictive_value }},
+						{{ original.false_discovery_rate }},
+						{{ original.false_omission_rate }},
+						{{ original.accuracy }}
+					],
+					mitigated: [
+						{{ mitigated.true_negative_rate }},
+						{{ mitigated.false_positive_rate }},
+						{{ mitigated.false_negative_rate }},
+						{{ mitigated.recall }},
+						{{ mitigated.precision }},
+						{{ mitigated.negative_predictive_value }},
+						{{ mitigated.false_discovery_rate }},
+						{{ mitigated.false_omission_rate }},
+						{{ mitigated.accuracy }}
+					]
+				};
+				const performance_xAxis = ["TNR", "FPR", "FNR", "Recall", "Precision", "NPV", "FDR", "FOR", "ACC"];
+
+				const biasMeasure = {
+					original: [
+						{{ original.average_odds_difference }},
+						{{ original.selection_rate }},
+						{{ original.disparate_impact }},
+						{{ original.statistical_parity_difference }},
+						{{ original.theil_index }},
+						{{ original.equal_opportunity_difference }}
+					],
+					mitigated: [
+						{{ mitigated.average_odds_difference }},
+						{{ mitigated.selection_rate }},
+						{{ mitigated.disparate_impact }},
+						{{ mitigated.statistical_parity_difference }},
+						{{ mitigated.theil_index }},
+						{{ mitigated.equal_opportunity_difference }}
+					]
+				};
+				const biasMeasure_xAxis = ["Average odds difference", "Selection rate", "Disparate impact", "Statistical parity difference", "Theil index", "Equal opportunity difference"];
+
+				const pm_descriptions = {
+				  'TNR': "TNR(True Negative Rate), also known as specificity, measures the proportion of true negative predictions out of all actual negative instances, indicating how well a model correctly identifies negative cases.<br><br>TP/P",
+				  'FPR': "FPR(False Positive Rate) quantifies the rate of false positive predictions, representing the proportion of actual negative instances that are incorrectly classified as positive by a model.<br><br>FP/N",
+				  'FNR': "FNR(False Negative Rate) measures the rate at which false negatives occur, indicating the proportion of actual positive instances that a model fails to correctly classify as positive.<br><br>FN/P",
+				  'Recall': "Recall, also known as sensitivity, represents the ability of a model to correctly identify true positive instances out of all actual positive instances, thus quantifying how well the model captures positive cases.<br><br>TP/TP+FN",
+				  'Precision': "Precision calculates the accuracy of positive predictions made by a model, showing the proportion of true positive instances out of all instances predicted as positive.<br><br>TP/TP+FP",
+				  'NPV': "NPV(Negative Predictive Value) is a measure of the proportion of true negatives among all negative predictions made by a model, indicating how well a model correctly identifies negative cases.<br><br>TN/TN+FN",
+				  'FDR': "FDR(False discovery rate) measures the proportion of false positive predictions among all positive predictions made by a model.<br><br>FP/FP+TP",
+				  'FOR': "FOR(False Omission Rate) measures the proportion of false negative predictions among all negative predictions made by a model.<br><br>FN/FN+TN",
+				  'ACC': "Accuracy is a general metric that assesses the overall correctness of predictions, measuring the proportion of correct predictions out of all instances.<br><br>TP+TN/P+N"
+				};
+
+				const bm_descriptions = {
+				  'Fairness Value': "Ideal value for each metric",
+				  'Error Rate': "Error Rate quantifies the overall accuracy of predictions made by a model by measuring the proportion of incorrect predictions out of all predictions. <br><br>The ideal value for this metric is 0. Lower scores indicate fairness, while higher scores are considered problematic.",
+				  'Average odds difference': "Average Odds Difference is computed as the average difference between FPR (False Positives / Negatives) and TPR (True Positives / Positives) for unprivileged and privileged groups.<br><br>The ideal value for this metric is 0. A value < 0 implies higher benefit for the privileged group, while a value > 0 implies higher benefit for the unprivileged group.<br><br>Fairness for this metric is between -0.1 and 0.1.",
+				  'Average abs odds difference': "Average Absolute Odds Difference is computed as the average of the absolute difference in FPR (False Positives / Negatives) and TPR (True Positives / Positives) for unprivileged and privileged groups.<br><br>The ideal value for this metric is 0. A value < 0 implies higher benefit for the privileged group, while a value > 0 implies higher benefit for the unprivileged group.",
+				  'Selection rate': "Selection Rate is a metric that measures the proportion of instances (TP + FP) predicted as positive among all predictions (P + N). It is used to assess the bias of the model, particularly in terms of how it selects positive outcomes. <br><br>The ideal value may vary depending on the specific characteristics of the data and the context. However, a value close to 0.5 is generally considered ideal, indicating a balanced selection rate.",
+				  'Disparate impact': "Disparate Impact is computed as the ratio of the rate of favorable outcomes for the unprivileged group to that of the privileged group.<br><br>The ideal value for this metric is 1.0. A value < 1 implies higher benefit for the privileged group, while a value > 1 implies a higher benefit for the unprivileged group.<br><br>Fairness for this metric is between 0.8 and 1.25.",
+				  'Statistical parity difference': "Statistical Parity Difference is computed as the difference in the rate of favorable outcomes received by the unprivileged group compared to the privileged group.<br><br>The ideal value for this metric is 0. Fairness for this metric is between -0.1 and 0.1.",
+				  'Generalized entropy index': "Generalized Entropy Index is proposed as a unified individual and group fairness measure.<br><br>The ideal value for this metric is 0, signifying perfect fairness. However, the metric has no upper limit and can have a minimum value that is negative.",
+				  'Theil index': "Theil Index is computed as the generalized entropy of benefit for all individuals in the dataset, with alpha = 1. It measures the inequality in benefit allocation for individuals.<br><br>A value of 0 implies perfect fairness. Fairness is indicated by lower scores, while higher scores are considered problematic.",
+				  'Equal opportunity difference': "Equal Opportunity Difference is computed as the difference in true positive rates between the unprivileged and privileged groups. The true positive rate is the ratio of true positives to the total number of actual positives for a given group. <br><br>The ideal value is 0. A value < 0 implies higher benefit for the privileged group, while a value > 0 implies higher benefit for the unprivileged group.<br><br>Fairness for this metric is between -0.1 and 0.1."
+				};
+
+				const performanceBar = new BarChart("performance_bar");
+				performanceBar.setAxis(performance_xAxis);
+				const modalperformanceBar = BarChartWithModal(performanceBar, 'performance_bar', performanceMeasure, pm_descriptions, performance_xAxis, '2d');
+				modalperformanceBar.show();
+
+				const performanceBar3d = new BarChart3D("performance_bar3d");
+				performanceBar3d.setAxis(performance_xAxis);
+				const modalperformanceBar3d = BarChartWithModal(performanceBar3d, 'performance_bar3d', performanceMeasure, pm_descriptions, performance_xAxis, '3d');
+				modalperformanceBar3d.show();
+
+				const performanceSpider = new SpiderWebChart("performance_spider");
+				performanceSpider.setAxis(performance_xAxis);
+				performanceSpider.push(performanceMeasure.original, {color: "#FF0000bb", name: "Original"});
+				performanceSpider.push(performanceMeasure.mitigated, {name: "Mitigated"});
+				performanceSpider.show();
+
+				const chartContainer = document.querySelector(".chart-container");
+				chartContainer.style.display = "flex";
+				chartContainer.style.backgroundColor = "#ffffff";
+
+				for (let i = 0; i < biasMeasure_xAxis.length; i++) {
+				  const newChartContainer = document.createElement("div");
+				  newChartContainer.id = `new_chart_container_${i}`;
+				  newChartContainer.classList.add("chart-item", "bar");
+
+				  newChartContainer.style.flex = "1";
+
+				  chartContainer.appendChild(newChartContainer);
+
+				  const chartDataItem_origin = [biasMeasure.original[i]];
+				  const chartDataItem_mitigated = [biasMeasure.mitigated[i]];
+				  const chartDataMerge = {original : chartDataItem_origin, mitigated : chartDataItem_mitigated};
+				  const chartXAxisItem = [biasMeasure_xAxis[i]];
+				  const chartItem = new BarChart(`new_chart_container_${i}`);
+				  chartItem.setAxis(chartXAxisItem);
+
+				  const modalbiasBar = clsBarChartWithModal(chartItem, 'newChartContainer.id', chartDataMerge, bm_descriptions, chartXAxisItem, '2d');
+				  modalbiasBar.show();
+				  }
+
+				const chart3dContainer = document.querySelector(".bar3d_chart_container");
+				chart3dContainer.style.display = "flex";
+				chart3dContainer.style.backgroundColor = "#ffffff";
+
+				for (let i = 0; i < biasMeasure_xAxis.length; i++) {
+				  const new3dChartContainer = document.createElement("div");
+				  new3dChartContainer.id = `new_chart_container_3d_${i}`;
+				  new3dChartContainer.classList.add("chart-item", "bar");
+
+				  new3dChartContainer.style.flex = "1";
+
+				  chart3dContainer.appendChild(new3dChartContainer);
+
+				  const chart3dDataItem_origin = [biasMeasure.original[i]];
+				  const chart3dDataItem_mitigated = [biasMeasure.mitigated[i]];
+				  const chart3dDataMerge = { original: chart3dDataItem_origin, mitigated: chart3dDataItem_mitigated };
+				  const chart3dXAxisItem = [biasMeasure_xAxis[i]];
+				  const chart3dItem = new BarChart(`new_chart_container_3d_${i}`);
+				  chart3dItem.setAxis(chart3dXAxisItem);
+
+				  const modalbiasBar3d = clsBarChartWithModal(chart3dItem, `new_chart_container_3d_${i}`, chart3dDataMerge, bm_descriptions, chart3dXAxisItem, '3d');
+				  modalbiasBar3d.show();
+				}
+
+				const biasSpider = new SpiderWebChart("bias_spider");
+				biasSpider.setAxis(biasMeasure_xAxis);
+				biasSpider.push(biasMeasure.original, {color: "#FF0000bb", name: "Original"});
+				biasSpider.push(biasMeasure.mitigated, {name: "Mitigated"});
+				biasSpider.show();
+			</script>
+	</body>
+</html>

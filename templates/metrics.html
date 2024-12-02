@@ -1,0 +1,377 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="#">Data</a></li>
+		<li><a href="#" class="active">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h1 class="major">Original Metrics</h1>
+<!-- Text -->
+<section>
+	<ul class="alt">
+		<li><b>Dataset</b>: {{ data_name }}</li>
+		<li><b>Protected attribute</b>: {{ data.protected }}</li>
+	</ul>
+</section>
+
+<!-- Table -->
+<h2>Tables of metrics</h2>
+<section>
+	<h3>A. Data metrics</h3>
+	<div class="table-wrapper">
+		<table>
+			<thead>
+				<tr>
+					<th>Attribute</th>
+					<th>Value</th>
+					<th>Fairness value</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Number of negatives (privileged)')">Number of negatives (privileged)</td>
+					<td>{{ data.privileged.num_negatives }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Number of positives (privileged)')">Number of positives (privileged)</td>
+					<td>{{ data.privileged.num_positives }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Number of negatives (unprivileged)')">Number of negatives (unprivileged)</td>
+					<td>{{ data.unprivileged.num_negatives }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Number of positives (unprivileged)')">Number of positives (unprivileged)</td>
+					<td>{{ data.unprivileged.num_positives }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Base rate')">Base rate</td>
+					<td>{{ data.base_rate }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Statistical parity difference')">Statistical parity difference</td>
+					<td>{{ data.statistical_parity_difference }}</td>
+					<td>0.0</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Consistency')">Consistency</td>
+					<td>{{ data.consistency }}</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+<section>
+	<h3>B. Performance</h3>
+	<div class="table-wrapper">
+		<table>
+			<thead>
+				<tr>
+					<th>Attribute</th>
+					<th>Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('pm', 'Recall')">Recall</td>
+					<td>{{ performance.recall }}</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('pm', 'TNR')">True negative rate</td>
+					<td>{{ performance.true_negative_rate }}</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('pm', 'FPR')">False positive rate</td>
+					<td>{{ performance.false_positive_rate }}</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('pm', 'FNR')">False negative rate</td>
+					<td>{{ performance.false_negative_rate }}</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('pm', 'Precision')">Precision</td>
+					<td>{{ performance.precision }}</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('pm', 'NPV')">Negative predictive value</td>
+					<td>{{ performance.negative_predictive_value }}</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('pm', 'FDR')">False discovery rate</td>
+					<td>{{ performance.false_discovery_rate }}</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('pm', 'FOR')">False omission rate</td>
+					<td>{{ performance.false_omission_rate }}</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('pm', 'ACC')">Accuracy</td>
+					<td>{{ performance.accuracy }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+<section>
+	<h3>C. Classification metrics</h3>
+	<div class="table-wrapper">
+		<table>
+			<thead>
+				<tr>
+					<th>Attribute</th>
+					<th>Value</th>
+					<th>Fairness value</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('bm', 'Error Rate')">Error rate</td>
+					<td>{{ classify.error_rate }}</td>
+					<td>0.0</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('bm', 'Average odds difference')">Average odds difference</td>
+					<td>{{ classify.average_odds_difference }}</td>
+					<td>0.0</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('bm', 'Average abs odds difference')">Average abs odds difference</td>
+					<td>{{ classify.average_abs_odds_difference }}</td>
+					<td>0.0</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('bm', 'Selection rate')">Selection rate</td>
+					<td>{{ classify.selection_rate }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('bm', 'Disparate impact')">Disparate impact</td>
+					<td>{{ classify.disparate_impact }}</td>
+					<td>1.0</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('bm', 'Statistical parity difference')">Statistical parity difference</td>
+					<td>{{ classify.statistical_parity_difference }}</td>
+					<td>0.0</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('bm', 'Generalized entropy index')">Generalized entropy index</td>
+					<td>{{ classify.generalized_entropy_index }}</td>
+					<td>0.0</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('bm', 'Theil index')">Theil index</td>
+					<td>{{ classify.theil_index }}</td>
+					<td>0.0</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('bm', 'Equal opportunity difference')">Equal opportunity difference</td>
+					<td>{{ classify.equal_opportunity_difference }}</td>
+					<td>0.0</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+<div id="chartmodal" class="modal">
+	<div class="modal-content">
+	<span id="closenewModal" class="close">×</span>
+	<h2 id="chartmodalTitle"></h2>
+	<p id="chartmodalContent"></p>
+	</div>
+</div>
+<br>
+{% endblock %}
+
+{% block chart_content %}
+			<!-- Chart -->
+				<h2>Charts of matrics</h2>
+				<section>
+					<h3>A. Data metrics</h3>
+					<figure class="highcharts-figure">
+						<div>
+							<div id="tsne" class="scatter"></div>
+						</div>
+					</figure>
+					<figure class="highcharts-figure">
+						<div>
+							<div id="data_n_bar" class="bar"></div>
+							<div id="data_n_bar3d" class="bar3d"></div>
+							<div id="data_chart_bar" class="bar"></div>
+						</div>
+					</figure>
+					</figure>
+				</section>
+				<br><br>
+				<section>
+					<h3>B. Performance measures</h3>
+					<figure class="highcharts-figure">
+						<div>
+							<div id="performance_chart_bar" class="bar"></div>
+						</div>
+					</figure>
+				</section>
+				<br><br>
+				<section>
+					<h3>C. Classification metrics</h3>
+					<figure class="highcharts-figure">
+					<div class="chart-container" style="display: flex;">
+					</div>
+					</figure>
+				</section>
+				<br><br>
+		</div>
+</div>
+
+<!-- Bias chart script -->
+<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/highcharts-more.js"></script>
+<script type="text/javascript" src="{% static 'src/bias_chart.js' %}"></script>
+
+<!-- Resource Script -->
+<script type="text/javascript">
+
+const tsne_priv = {{ data.privileged.TSNE }};
+const tsne_unpriv = {{ data.unprivileged.TSNE }};
+
+const tsneChart = new ScatterChart('tsne', '{{ data_name }}');
+tsneChart.push(tsne_priv, {color: "rgb(129, 199, 233)", name: "Privileged"});
+tsneChart.push(tsne_unpriv, {color: "rgb(255, 187, 0)", name: "Unprivileged"});
+tsneChart.show();
+
+const dm_descriptions = {
+'Number of negatives (privileged)' : "The number of negative instances in the privileged group.",
+'Number of positives (privileged)' : "The number of positive instances in the privileged group.",
+'Number of negatives (unprivileged)' : "The number of negative instances in the unprivileged group.",
+'Number of positives (unprivileged)' : "The number of positive instances in the unprivileged group.",
+'Number of positives' : "The number of positive instances in the (privileged/unprivileged) group.",
+'Number of negatives' : "The number of negative instances in the (privileged/unprivileged) group.",
+'Base rate': "Base rate is the percentage of preferred labels based on privilege in the protected attribute.<br><br>P/P+N ",
+'Statistical parity difference': "Statistical parity difference is computed as the difference of the rate of favorable outcomes received by the unprivileged group to the privileged group.<br><br>The ideal value of this metric is 0.<br>Fairness for this metric is between -0.1 and 0.1",
+'Consistency': "Consistency is an individual fairness metric that measures how similar the labels are for similar instances."
+};
+
+const privilegedData = {
+	privileged: [{{ data.privileged.num_negatives }}, {{ data.privileged.num_positives }}],
+	unprivileged: [{{ data.unprivileged.num_negatives }}, {{ data.unprivileged.num_positives }}]
+};
+
+const n_privileged = [{{ data.privileged.num_negatives }}, {{ data.privileged.num_positives }}];
+const n_unprivileged = [{{ data.unprivileged.num_negatives }}, {{ data.unprivileged.num_positives }}];
+
+const dataN_xAxis = ["Number of negatives", "Number of positives"];
+
+const dataNBar = new BarChart("data_n_bar");
+dataNBar.setAxis(dataN_xAxis);
+const dataNBarWithModal = BarChartWithModal(dataNBar, data_n_bar,  privilegedData, dm_descriptions, dataN_xAxis, '2d');
+dataNBarWithModal.show();
+
+const dataNBar3d = new BarChart3D("data_n_bar3d");
+dataNBar3d.setAxis(dataN_xAxis);
+const dataNBar3dWithModal = BarChartWithModal(dataNBar3d, data_n_bar3d,  privilegedData, dm_descriptions, dataN_xAxis, '3d');
+dataNBar3dWithModal.show();
+
+const dataMeasure = [
+{{ data.base_rate }},
+{{ data.statistical_parity_difference }},
+{{ data.consistency }}
+];
+const dataMeasure_xAxis = ["Base rate", "Statistical parity difference", "Consistency"];
+
+const performanceMeasure = [
+{{ performance.true_negative_rate }},
+{{ performance.false_positive_rate }},
+{{ performance.false_negative_rate }},
+{{ performance.recall }},
+{{ performance.precision }},
+{{ performance.negative_predictive_value }},
+{{ performance.false_discovery_rate }},
+{{ performance.false_omission_rate }},
+{{ performance.accuracy }}
+];
+const performanceMeasure_xAxis = ["TNR", "FPR", "FNR", "Recall", "Precision", "NPV", "FDR", "FOR", "ACC"];
+
+const clsMeasure = [
+{{ classify.average_odds_difference }},
+{{ classify.selection_rate }},
+{{ classify.disparate_impact }},
+{{ classify.statistical_parity_difference }},
+{{ classify.theil_index }},
+{{ classify.equal_opportunity_difference }}
+];
+const clsMeasure_xAxis = ["Average odds difference", "Selection rate", "Disparate impact", "Statistical parity difference", "Theil index", "Equal opportunity difference"];
+
+const pm_descriptions = {
+	'TNR': "TNR(True Negative Rate), also known as specificity, measures the proportion of true negative predictions out of all actual negative instances, indicating how well a model correctly identifies negative cases.<br><br>TP/P",
+	'FPR': "FPR(False Positive Rate) quantifies the rate of false positive predictions, representing the proportion of actual negative instances that are incorrectly classified as positive by a model.<br><br>FP/N",
+	'FNR': "FNR(False Negative Rate) measures the rate at which false negatives occur, indicating the proportion of actual positive instances that a model fails to correctly classify as positive.<br><br>FN/P",
+	'Recall': "Recall, also known as sensitivity, represents the ability of a model to correctly identify true positive instances out of all actual positive instances, thus quantifying how well the model captures positive cases.<br><br>TP/TP+FN",
+	'Precision': "Precision calculates the accuracy of positive predictions made by a model, showing the proportion of true positive instances out of all instances predicted as positive.<br><br>TP/TP+FP",
+	'NPV': "NPV(Negative Predictive Value) is a measure of the proportion of true negatives among all negative predictions made by a model, indicating how well a model correctly identifies negative cases.<br><br>TN/TN+FN",
+	'FDR': "FDR(False discovery rate) measures the proportion of false positive predictions among all positive predictions made by a model.<br><br>FP/FP+TP",
+	'FOR': "FOR(False Omission Rate) measures the proportion of false negative predictions among all negative predictions made by a model.<br><br>FN/FN+TN",
+	'ACC': "Accuracy is a general metric that assesses the overall correctness of predictions, measuring the proportion of correct predictions out of all instances.<br><br>TP+TN/P+N"
+};
+
+const bm_descriptions = {
+'Error Rate': "Error Rate quantifies the overall accuracy of predictions made by a model by measuring the proportion of incorrect predictions out of all predictions. <br><br>The ideal value for this metric is 0. Lower scores indicate fairness, while higher scores are considered problematic.",
+'Average odds difference': "Average Odds Difference is computed as the average difference between FPR (False Positives / Negatives) and TPR (True Positives / Positives) for unprivileged and privileged groups.<br><br>The ideal value for this metric is 0. A value < 0 implies higher benefit for the privileged group, while a value > 0 implies higher benefit for the unprivileged group.<br><br>Fairness for this metric is between -0.1 and 0.1.",
+'Average abs odds difference': "Average Absolute Odds Difference is computed as the average of the absolute difference in FPR (False Positives / Negatives) and TPR (True Positives / Positives) for unprivileged and privileged groups.<br><br>The ideal value for this metric is 0. A value < 0 implies higher benefit for the privileged group, while a value > 0 implies higher benefit for the unprivileged group.",
+'Selection rate': "Selection Rate is a metric that measures the proportion of instances (TP + FP) predicted as positive among all predictions (P + N). It is used to assess the bias of the model, particularly in terms of how it selects positive outcomes. <br><br>The ideal value may vary depending on the specific characteristics of the data and the context. However, a value close to 0.5 is generally considered ideal, indicating a balanced selection rate.",
+'Disparate impact': "Disparate Impact is computed as the ratio of the rate of favorable outcomes for the unprivileged group to that of the privileged group.<br><br>The ideal value for this metric is 1.0. A value < 1 implies higher benefit for the privileged group, while a value > 1 implies a higher benefit for the unprivileged group.<br><br>Fairness for this metric is between 0.8 and 1.25.",
+'Statistical parity difference': "Statistical Parity Difference is computed as the difference in the rate of favorable outcomes received by the unprivileged group compared to the privileged group.<br><br>The ideal value for this metric is 0. Fairness for this metric is between -0.1 and 0.1.",
+'Generalized entropy index': "Generalized Entropy Index is proposed as a unified individual and group fairness measure.<br><br>The ideal value for this metric is 0, signifying perfect fairness. However, the metric has no upper limit and can have a minimum value that is negative.",
+'Theil index': "Theil Index is computed as the generalized entropy of benefit for all individuals in the dataset, with alpha = 1. It measures the inequality in benefit allocation for individuals.<br><br>A value of 0 implies perfect fairness. Fairness is indicated by lower scores, while higher scores are considered problematic.",
+'Equal opportunity difference': "Equal Opportunity Difference is computed as the difference in true positive rates between the unprivileged and privileged groups. The true positive rate is the ratio of true positives to the total number of actual positives for a given group. <br><br>The ideal value is 0. A value < 0 implies higher benefit for the privileged group, while a value > 0 implies higher benefit for the unprivileged group.<br><br>Fairness for this metric is between -0.1 and 0.1."
+};
+
+
+const clsMeasure1 = [{{ classify.average_odds_difference }}];
+const clsMeasure_xAxis1 = ["Average odds difference"];
+
+const dataBar = new BarChart("data_chart_bar");
+dataBar.setAxis(dataMeasure_xAxis);
+const dataBarWithModal = BarChartWithModal(dataBar, "data_chart_bar", dataMeasure, dm_descriptions, dataMeasure_xAxis, '2d');
+dataBarWithModal.show();
+
+const performanceBar = new BarChart("performance_chart_bar");
+performanceBar.setAxis(performanceMeasure_xAxis);
+const performanceBarWithModal = BarChartWithModal(performanceBar, "performance_chart_bar", performanceMeasure, pm_descriptions, performanceMeasure_xAxis, '2d');
+performanceBarWithModal.show();
+
+const chartContainer = document.querySelector(".chart-container");
+chartContainer.style.display = "flex";
+chartContainer.style.backgroundColor = "#ffffff";
+
+for (let i = 0; i < clsMeasure.length; i++) {
+const newChartContainer = document.createElement("div");
+newChartContainer.id = `new_chart_container_${i}`;
+newChartContainer.classList.add("chart-item", "bar");
+
+newChartContainer.style.flex = "1";
+
+chartContainer.appendChild(newChartContainer);
+
+const chartDataItem = [clsMeasure[i]];
+const chartXAxisItem = [clsMeasure_xAxis[i]];
+const chartItem = new BarChart(`new_chart_container_${i}`);
+chartItem.setAxis(chartXAxisItem);
+
+const clasBarmodal = clsBarChartWithModal(chartItem, 'newChartContainer.id', chartDataItem, bm_descriptions, chartXAxisItem);
+clasBarmodal.show();}
+</script>
+{% endblock %}

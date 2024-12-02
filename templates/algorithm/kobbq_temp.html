@@ -1,0 +1,148 @@
+{% load static %}
+{% load mathfilters %}
+
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>KoBBQ - MAF</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+		<link rel="stylesheet" href="{% static 'assets/css/modal.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="/app" class="title">MAF</a>
+				<nav>
+					<ul>
+						<li><a href="/app">Home</a></li>
+						<li><a href="/app/datatype">Data</a></li>
+						<li><a href="#">Metrics</a></li>
+						<li><a href="#" class="active">Algorithms</a></li>
+						<li><a href="#">Result</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<div class="row">
+								<div class="col-6 col-12-medium">
+									<ul class="actions">
+										<li><a href="/app" class="button fit">Home</a></li>
+										<li><a href="/app/data" class="button fit">Data selection</a></li>
+									</ul>
+								</div>
+							</div>
+							<h1 class="major">KoBBQ</h1>
+							<!-- Text -->
+								<section>
+									<ul class="alt">
+										<li><b>Modelname</b>: {{ model_name }}</li>
+									</ul>
+								</section>
+
+							<!-- Table -->
+								<h2>Tables of metrics</h2>
+								<section>
+									<div class="table-wrapper">
+										<table>
+											<thead>
+												<tr>
+													<th>category</th>
+													<th>out-of-choice ratio</th>
+													<th>accuracy in ambiguous contexts</th>
+													<th>accuracy in disambiguated contexts</th>
+													<th>diff-bias in ambiguous contexts</th>
+													<th>diff-bias in disambiguated contexts</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>overall</td>
+													{% if overall.ooc_ratio == 1.0 %}
+														<td><b>{{ overall.ooc_ratio }}</b></td>
+														<td> - </b></td>
+														<td> - </b></td>
+														<td> - </b></td>
+														<td> - </b></td>
+													{% else %}
+														<td><b>{{ overall.ooc_ratio }}</b></td>
+														<td><b>{{ overall.acc_amb}}</b></td>
+														<td><b>{{ overall.acc_disamb}}</b></td>
+														<td><b>{{ overall.diffbias_amb}}</b></td>
+														<td><b>{{ overall.diffbias_disamb}}</b></td>
+													{% endif %}
+												</tr>
+												<tr>
+													<td>ST</td>
+													{% if overall.ooc_ratio == 1.0 %}
+														<td><b>{{ overall.ooc_ratio }}</b></td>
+														<td> - </b></td>
+														<td> - </b></td>
+														<td> - </b></td>
+														<td> - </b></td>
+													{% else %}
+														<td><b>{{ overall.ooc_ratio }}</b></td>
+														<td><b>{{ overall.acc_amb}}</b></td>
+														<td><b>{{ overall.acc_disamb}}</b></td>
+														<td><b>{{ overall.diffbias_amb}}</b></td>
+														<td><b>{{ overall.diffbias_disamb}}</b></td>
+													{% endif %}
+												</tr>
+												<tr>
+													<td>overall</td>
+													{% if overall.ooc_ratio == 1.0 %}
+														<td><b>{{ overall.ooc_ratio }}</b></td>
+														<td> - </b></td>
+														<td> - </b></td>
+														<td> - </b></td>
+														<td> - </b></td>
+													{% else %}
+														<td><b>{{ overall.ooc_ratio }}</b></td>
+														<td><b>{{ overall.acc_amb}}</b></td>
+														<td><b>{{ overall.acc_disamb}}</b></td>
+														<td><b>{{ overall.diffbias_amb}}</b></td>
+														<td><b>{{ overall.diffbias_disamb}}</b></td>
+													{% endif %}
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</section>
+
+								<div class="row">
+									<div class="col-6 col-12-medium">
+										<ul class="actions">
+											<li><a href="/app" class="button primary fit">Home</a></li>
+											<li><a href="/app/datatype" class="button fit">Data selection</a></li>
+										</ul>
+									</div>
+								</div>
+						</div>
+
+		{% include "footer.html" %}
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}" ></script>
+			<script src="{% static 'assets/js/jquery.scrollex.min.js' %}" ></script>
+			<script src="{% static 'assets/js/jquery.scrolly.min.js' %}" ></script>
+			<script src="{% static 'assets/js/browser.min.js' %}" ></script>
+			<script src="{% static 'assets/js/breakpoints.min.js' %}" ></script>
+			<script src="{% static 'assets/js/util.js' %}" ></script>
+			<script src="{% static 'assets/js/main.js' %}" ></script>
+			<!-- <script src="{% static 'src/tooltip.js' %}" ></script> -->
+	</body>
+</html>

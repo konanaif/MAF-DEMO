@@ -1,0 +1,87 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="#" class="active">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h1 class="major">Image Data Selection</h1>
+<section>
+	<!-- Preset dataset -->
+		<form id="metricForm" action="/metric/" method="post" enctype="multipart/form-data">
+				<ul class="alt">
+					<li>
+						<div class="col-4 col-12-small">
+							<input type="radio" id="pubfig" name="data_name" value="pubfig">
+							<label for="pubfig">Public Figures Face Database</label>
+						</div>
+						<div class="description">
+									<span class="definition" onclick="showDefinition('Protected attribute')">Predicting gender through images.</span>
+										<br><br>
+									<span class="definition" onclick="showDefinition('Protected attribute')">Protected Attributes:</span>
+									<br>
+
+										- <b>Makeup</b>, privileged: <b><i>Heavy Makeup</i></b>, unprivileged: <b><i>No Makeup</i></b><br>
+
+								<span><a href="https://www.cs.columbia.edu/CAVE/databases/pubfig/" target="_blank">Learn more</a></span>
+						<br><br>
+						</div>
+					</li>
+					<li>
+						<div class="col-4 col-12-small">
+							<input type="radio" id="celeba" name="data_name" value="celeba">
+							<label for="celeba">CelebA</label>
+						</div>
+						<div class="description">
+									<span class="definition" onclick="showDefinition('Protected attribute')">Predicting gender through images.</span>
+										<br><br>
+									<span class="definition" onclick="showDefinition('Protected attribute')">Protected Attributes:</span>
+									<br>
+
+										- <b>Gender</b>, privileged: <b><i>Male</i></b>, unprivileged: <b><i>Female</i></b><br>
+
+								<span><a href="https://mmlab.ie.cuhk.edu.hk/projects/CelebA.html" target="_blank">Learn more</a></span>
+						<br><br>
+						</div>
+					</li>
+				</ul>
+			<h2>Option</h2>
+				<div class="col-12">
+					<input type="submit" onclick="tsneSubmitForm()" value="Check t-SNE (sample_size=50)" class="primary" />
+				</div>
+				<br>
+				<div class="col-12">
+					<input type="submit" onclick="selectAlgoSubmitForm()" value="Select Mitigation Algorithm" class="primary" />
+				</div>
+		</form>
+</section>
+<script>
+	function tsneSubmitForm(){
+		const selectedData = document.querySelector('input[name="data_name"]:checked');
+		if (selectedData){
+			document.getElementById('metricForm').action = '/app/metric/image/'+selectedData.value+'/';
+			document.getElementById('metricForm').submit();
+		}
+		else{
+			alert("Please select an option before submitting.");
+		}
+	}
+	function selectAlgoSubmitForm(){
+		const selectedData = document.querySelector('input[name="data_name"]:checked');
+		if (selectedData){
+			document.getElementById('metricForm').action = '/app/algorithm/image/'+selectedData.value+'/';
+			document.getElementById('metricForm').submit();
+		}
+		else{
+			alert("Please select an option before submitting.");
+		}
+	}
+</script>
+{% endblock %}

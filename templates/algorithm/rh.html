@@ -1,0 +1,25 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load mathfilters %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#" class="active">Algorithms</a></li>
+		<li><a href="#">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h1 class="major">Results</h1>
+	<section>
+		<ul class="alt">
+			<li><b>Question</b>: {{ question }}</li>
+			<li><b> Prompt for mitigation</b>: {{prompt_for_mitigation}}</li>
+			<li><b>Baseline output</b>: {{ baseline_output }}</li>
+			<li><b>Mitigation output</b>: {{ mitigation_output }}</li>
+		</ul>
+	</section>
+{% endblock %}

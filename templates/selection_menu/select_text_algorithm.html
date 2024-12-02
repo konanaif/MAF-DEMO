@@ -1,0 +1,94 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#" class="active">Algorithms</a></li>
+		<li><a href="#">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h1 class="major">Text Algorithm Selection</h1>
+<!-- Text -->
+	<form id="textalgorithmForm" action="/mitigation/" method="post" enctype="multipart/form-data">
+	<ul class="alt">
+		<li>
+			<div class="col-4 col-12-small">
+					<input type="radio" id="rh" name="algorithm" value="rh">
+					<label class="tooltip" for="rh">Representativeness Heuristic
+						<span class="tooltiptext tooltip-right">
+							Representativeness heuristic is associated with two errors which are base rate neglect and the conjunction fallacy. These are common examples of how individuals make statistically incorrect judgments when reasoning about probabilities.
+						</span>
+					</label>
+			</div>
+		</li>
+		<li>
+			<div class="col-4 col-12-small">
+					<input type="radio" id="latte" name="algorithm" value="latte">
+					<label class="tooltip" for="latte">Latte
+						<span class="tooltiptext tooltip-right">
+							LATTE (LLMs As ToxiciTy Evaluator) is proposed to address the variability in definitions of toxicity depending on context and to mitigate the negative impact of upstream bias.
+						</span>
+					</label>
+			</div>
+		</li>
+		<li>
+			<div class="col-4 col-12-small">
+					<input type="radio" id="kobbq" name="algorithm" value="kobbq">
+					<label class="tooltip" for="kobbq">KoBBQ
+						<span class="tooltiptext tooltip-right">
+						KoBBQ (Korean Bias Benchmark for Question Answering) that reflects the situations and social biases in South Korea
+					</span>
+				</label>
+			</div>
+		</li>
+		<li>
+			<div class="col-4 col-12-small">
+					<input type="radio" id="crehate" name="algorithm" value="crehate">
+					<label class="tooltip" for="crehate">CREHate
+						<span class="tooltiptext tooltip-right">
+							CREHate: a CRosscultural English Hate speech dataset—comprising 1,580 online posts annotated by individuals from five English-speaking countries: Australia (AU), United Kingdom (GB), Singapore (SG), the United States (US), and South Africa (ZA).
+						</span>
+					</label>
+			</div>
+		</li>
+		<li>
+			<div class="col-4 col-12-small">
+					<input type="radio" id="concse" name="algorithm" value="concse">
+					<label class="tooltip" for="concse">ConCSE
+						<span class="tooltiptext tooltip-right">
+							ConCSE is a unified contrastive learning and augmentation method for code-switched embeddings, highlighting the semantics of CS sentences.
+						</span>
+					</label>
+			</div>
+		</li>
+	</ul>
+	<div class="col-12">
+		<input type="submit" onclick="submitForm()" value="Check Result" class="primary" />
+	</div>
+	</form>
+
+<script>
+function submitForm(){
+	const selectedData = document.querySelector('input[name="algorithm"]:checked');
+	if (selectedData){
+		let redirect_url;
+		if (selectedData.value == "concse"){
+			redirect_url = '/app/text/mitigation/'+selectedData.value+'/loading/';
+		}
+		else{
+			redirect_url = '/app/text/mitigation/'+selectedData.value+'/getdata/';
+		}
+		document.getElementById('textalgorithmForm').action = redirect_url;
+		document.getElementById('textalgorithmForm').submit();
+	}
+	else{
+		alert("Please select an option before submitting.");
+	}
+}
+</script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype/" >Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#" class="active">Algorithms</a></li>
+		<li><a href="#">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h2 class="major">CREHate</h2>
+CREHate, a cross-cultural English hate speech dataset including posts and annotations from diverse cultural backgrounds.
+We evaluate large language models (LLMs) under a zero-shot setting and show that current LLMs tend to show higher accuracies on Anglosphere country labels in CREHate.
+<br><br>
+<section>
+	<ul class="alt">
+		<form id="rhInputForm" action="{{ result_url }}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<label for="context">Enter context</label>
+								<b>- Example: </b> The National Authoritarian Terrorist Organization is behind this instability, just like they are responsible for all the other coos to disrupt opposing countries around the world!😔
+			<input type="text" id="context" name="context">
+			<br><br>
+			<label for="condition"> Select condition</label>
+			<b>- Simple = True</b> <br>
+			  Prompt: "Classify this text as Hate or Non-hate. <i>context.</i> Answer: " <br>
+			<b> - Simple = False, Persona = False </b> <br>
+			  In this case, the prompt contains additional explanation such as "Answer if this post is hate or not with a single alphabet letter among given answer choices a and b.". <br>
+			<b> - Simple = False, Persona = True </b> <br>
+			  In this case, the prompt contains specific 'country' information such as "Answer if this post is hate or not in <b>Australia</b> with a single alphabet letter among given answer choices a and b.".
+			<br><br>
+			<b>Simple</b>
+			<input type="radio" id="simple_true" name="simple" value="True">
+			<label for="simple_true"> True </label>
+			<input type="radio" id="simple_false" name="simple" value="False">
+			<label for="simple_false"> False</label>
+			<br><br>
+
+			<b>Persona</b>
+			<input type="radio" id="persona_true" name="persona" value="True">
+			<label for="persona_true"> True </label>
+			<input type="radio" id="persona_false" name="persona" value="False">
+			<label for="persona_false"> False </label>
+			<br><br>
+			<input type="submit" name="condition" value="submit" class="primary" />
+		</form>
+	</ul>
+</section>
+{% endblock %}

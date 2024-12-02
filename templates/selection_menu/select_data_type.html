@@ -1,0 +1,36 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype" class="active">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h1 class="major">Data Type selection</h1>
+<section>
+	<h2>Select data type</h2>
+		<form action="/app/metric" method="post" enctype="multipart/form-data">
+			<ul class="actions">
+				<li><a href="/app/datatype/tabular" class="button scrolly primary">Tabular</a></li>
+				<li><a href="/app/datatype/image" class="button scrolly primary">Image</a></li>
+				<li><a href="/app/datatype/text" class="button scrolly primary">Text</a></li>
+				<li><a href="/app/datatype/audio" class="button scrolly primary">Audio</a></li>
+			</ul>
+			<div class="description">
+				<span>
+					<h3> Supported data </h3>
+					- TABULAR: Compas, German Credit Scoring, Adult Census Income <br>
+					- IMAGE: Pubfig, CelebA <br>
+					- TEXT Benchmark: KoBBQ, CREHate <br>
+					- AUDIO: <a href = "https://huggingface.co/datasets/esyoon/coraal_clean_test" >esyoon/coraal_clean_test</a>
+				</span>
+			</div>
+		</form>
+</section>
+{% endblock %}

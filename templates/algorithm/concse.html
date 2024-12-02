@@ -1,0 +1,32 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load mathfilters %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#" class="active">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+The phenomenon of <b>code-switching (CS)</b> refers to the intertwining of two languages within a single utterance.
+The current Equivalence Constraint (EC) theory for CS in other languages may only partially capture English-Korean CS complexities due to the intrinsic grammatical differences between the languages.
+We introduce a Koglish dataset tailored for English-Korean CS scenarios to mitigate such challenges.
+<br>
+In this demo page, we suggest an experiment result based on the checkpoints of pre-trained multilingual model, mBERT-base.
+You can check for other models such as XLM-R-base, XML-R-large and mBART on our framework.
+
+We evaluate ConCSE using the CS sentence pairs from Koglish-STS and use Spearman’s correlation as a performance metric.
+<br><br>
+<h1 class="major">Results</h1>
+	<section>
+		<ul class="alt">
+			<li><b>Dataset</b>: Koglish dataset</li>
+			<li><b>Spearman_corr</b>: {{ spearman_corr }}</li>
+		</ul>
+	</section>
+{% endblock %}
