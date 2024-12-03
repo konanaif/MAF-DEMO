@@ -88,3 +88,7 @@ AIF360의 알고리즘과 컨소시엄에서 개발한 알고리즘을 포함하
 
   - Text Benchmark: <b>KoBBQ</b>
   <img src = "https://github.com/user-attachments/assets/8ba6adf3-e00e-467e-9d9c-c01260478dc0" alt="Text example" style="width:70%; height:25%;">
+
+  - Audio algorithm: <b>INTapt</b>
+  <img src = "https://github.com/user-attachments/assets/5a582374-0444-41b7-bb1f-af2cbf89c0b7" alt="Audio example" style="width:70%; height:25%;">
+
