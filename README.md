@@ -72,7 +72,7 @@ SELECT MITIGATION ALGORITHM 버튼을 클릭하면, 편향성 완화 알고리�
 <img src = "https://github.com/user-attachments/assets/645f788d-c6b2-491f-b304-faade6c3e821" alt="Classification metric" style="width:70%; height:25%;">
 
 ### 3. Algorithm Selection
-편향성 완화 알고리즘 선택 화면입니다. ⓘ 버튼을 클릭하여 각 모델에 대한 간략한 설명을 확인할 수 있습니다.
+편향성 완화 알고리즘 선택 화면입니다.
 AIF360의 알고리즘과 컨소시엄에서 개발한 알고리즘을 포함하고 있으며, 지속적으로 업데이트를 진행하고 있습니다.
 
 <img src = "https://github.com/user-attachments/assets/68c8b584-28e8-4d0a-bdcf-42e4e07a386e" alt="Algorithm selection" style="width:70%; height:25%;">
