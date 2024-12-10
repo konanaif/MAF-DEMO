@@ -33,15 +33,21 @@ MAF-DEMO에서는 총 4가지 type(tabular, image, text, audio)의 데이터와 
       ```
 
 3. 환경변수 설정
-   - 텍스트 데이터에 대한 알고리즘들은 외부 API를 이용하므로 API 이용을 위한 KEY 값을 설정합니다. 또한, MAF 구동을 위해 PYTHON 경로를 설정합니다.
-     ```bash
+   - 텍스트 데이터에 대한 알고리즘들은 외부 API를 이용하므로 API 이용을 위한 KEY 값을 설정합니다. 또한, MAF 구동을 위해 PYTHON 경로를 설정합니다.  
+     (MAF에서는 PYTHON경로+"/MAF/data" 이하 폴더에 데이터를 세팅합니다. 이를 고려하여 PYTHON 경로를 설정해주세요.)
+      ```bash
       #OPENAI API KEY 설정 예시
-      export OPENAI_API_KEY = 'your_api_key'
+      export OPENAI_API_KEY='your_api_key'
       #docker 사용 시 PYTHON 경로 설정 예시
-      export PYTHONPATH = '/workspace'
+      export PYTHONPATH='/workspace/MAF-DEMO'
       #Django SECRET KEY 설정
-      export DJANGO_SECRET_KEY = 'your_django_key'
+      export DJANGO_SECRET_KEY='your_django_key'
      ```
+
+4. DEMO 실행
+  ```bash
+    python manage.py runserver
+  ```
 
 ## How to use
 ### 1. Data Type Selection

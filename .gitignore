@@ -10,3 +10,4 @@ MAF/*
 *.lock
 *.txt
 !requirements.txt
+setting.sh
