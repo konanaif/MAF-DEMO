@@ -1,3 +1,5 @@
+import pandas as pd 
+
 import MAF.algorithms.preprocessing as preprocessing
 import MAF.algorithms.inprocessing as inprocessing
 import MAF.algorithms.postprocessing as postprocessing
@@ -14,7 +16,6 @@ from MAF.metric.metric import get_metrics
 
 from .context_processors import ALGORITHM_NAME2ID
 
-
 def get_tabular_data_metric(data_name):
     if data_name == "compas":
         data = load_preproc_data_compas()
@@ -29,7 +30,6 @@ def get_tabular_data_metric(data_name):
         "performance": metrics["performance"],
         "classify": metrics["classify"],
     }
-
 
 def get_image_data_metric(data_name):
     if data_name == "pubfig":
@@ -113,5 +113,9 @@ def load_algorithm(data_name: str, algorithm_name: str):
         )
     if algorithm_name == ALGORITHM_NAME2ID["RejectOptionClassifier"]:
         return postprocessing.reject_option_classification.RejectOptionClassifier(
+            dataset_name=data_name, protected="sex"
+        )
+    if algorithm_name == ALGORITHM_NAME2ID["AdversarialDebiasing"]:
+        return inprocessing.adversarial_debiasing.AdversarialDebiasing(
             dataset_name=data_name, protected="sex"
         )
