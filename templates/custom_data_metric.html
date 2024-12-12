@@ -1,0 +1,158 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="#">Data</a></li>
+		<li><a href="#" class="active">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<h1 class="major">Data Metrics</h1>
+<!-- Text -->
+<section>
+	<ul class="alt">
+		<li><b>Dataset</b>: {{ data_name }}</li>
+		<li><b>Protected attribute</b>: {{ data.protected }}</li>
+	</ul>
+</section>
+
+<!-- Table -->
+<h2>Tables of metrics</h2>
+<section>
+	<div class="table-wrapper">
+		<table>
+			<thead>
+				<tr>
+					<th>Attribute</th>
+					<th>Value</th>
+					<th>Fairness value</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Number of negatives (privileged)')">Number of negatives (privileged)</td>
+					<td>{{ data.privileged.num_negatives }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Number of positives (privileged)')">Number of positives (privileged)</td>
+					<td>{{ data.privileged.num_positives }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Number of negatives (unprivileged)')">Number of negatives (unprivileged)</td>
+					<td>{{ data.unprivileged.num_negatives }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Number of positives (unprivileged)')">Number of positives (unprivileged)</td>
+					<td>{{ data.unprivileged.num_positives }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Base rate')">Base rate</td>
+					<td>{{ data.base_rate }}</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Statistical parity difference')">Statistical parity difference</td>
+					<td>{{ data.statistical_parity_difference }}</td>
+					<td>0.0</td>
+				</tr>
+				<tr>
+					<td class="tooltip" onmouseover="showTooltip('dm', 'Consistency')">Consistency</td>
+					<td>{{ data.consistency }}</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+
+<div id="chartmodal" class="modal">
+	<div class="modal-content">
+	<span id="closenewModal" class="close">×</span>
+	<h2 id="chartmodalTitle"></h2>
+	<p id="chartmodalContent"></p>
+	</div>
+</div>
+<br>
+{% endblock %}
+
+{% block chart_content %}
+			<!-- Chart -->
+				<h2>Charts of matrics</h2>
+				<section>
+					<figure class="highcharts-figure">
+						<div>
+							<div id="data_n_bar" class="bar"></div>
+							<div id="data_n_bar3d" class="bar3d"></div>
+							<div id="data_chart_bar" class="bar"></div>
+						</div>
+					</figure>
+				</section>
+
+<!-- Bias chart script -->
+<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/highcharts-more.js"></script>
+<script type="text/javascript" src="{% static 'src/bias_chart.js' %}"></script>
+
+<!-- Resource Script -->
+<script type="text/javascript">
+
+const dm_descriptions = {
+'Number of negatives (privileged)' : "The number of negative instances in the privileged group.",
+'Number of positives (privileged)' : "The number of positive instances in the privileged group.",
+'Number of negatives (unprivileged)' : "The number of negative instances in the unprivileged group.",
+'Number of positives (unprivileged)' : "The number of positive instances in the unprivileged group.",
+'Number of positives' : "The number of positive instances in the (privileged/unprivileged) group.",
+'Number of negatives' : "The number of negative instances in the (privileged/unprivileged) group.",
+'Base rate': "Base rate is the percentage of preferred labels based on privilege in the protected attribute.<br><br>P/P+N ",
+'Statistical parity difference': "Statistical parity difference is computed as the difference of the rate of favorable outcomes received by the unprivileged group to the privileged group.<br><br>The ideal value of this metric is 0.<br>Fairness for this metric is between -0.1 and 0.1",
+'Consistency': "Consistency is an individual fairness metric that measures how similar the labels are for similar instances."
+};
+
+const privilegedData = {
+	privileged: [{{ data.privileged.num_negatives }}, {{ data.privileged.num_positives }}],
+	unprivileged: [{{ data.unprivileged.num_negatives }}, {{ data.unprivileged.num_positives }}]
+};
+
+const n_privileged = [{{ data.privileged.num_negatives }}, {{ data.privileged.num_positives }}];
+const n_unprivileged = [{{ data.unprivileged.num_negatives }}, {{ data.unprivileged.num_positives }}];
+
+const dataN_xAxis = ["Number of negatives", "Number of positives"];
+
+const dataNBar = new BarChart("data_n_bar");
+dataNBar.setAxis(dataN_xAxis);
+const dataNBarWithModal = BarChartWithModal(dataNBar, data_n_bar,  privilegedData, dm_descriptions, dataN_xAxis, '2d');
+dataNBarWithModal.show();
+
+const dataNBar3d = new BarChart3D("data_n_bar3d");
+dataNBar3d.setAxis(dataN_xAxis);
+const dataNBar3dWithModal = BarChartWithModal(dataNBar3d, data_n_bar3d,  privilegedData, dm_descriptions, dataN_xAxis, '3d');
+dataNBar3dWithModal.show();
+
+const dataMeasure = [
+{{ data.base_rate }},
+{{ data.statistical_parity_difference }},
+{{ data.consistency }}
+];
+const dataMeasure_xAxis = ["Base rate", "Statistical parity difference", "Consistency"];
+
+const dataBar = new BarChart("data_chart_bar");
+dataBar.setAxis(dataMeasure_xAxis);
+const dataBarWithModal = BarChartWithModal(dataBar, "data_chart_bar", dataMeasure, dm_descriptions, dataMeasure_xAxis, '2d');
+dataBarWithModal.show();
+
+const chartContainer = document.querySelector(".chart-container");
+chartContainer.style.display = "flex";
+chartContainer.style.backgroundColor = "#ffffff";
+
+</script>
+{% endblock %}

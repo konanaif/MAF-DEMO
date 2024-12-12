@@ -1,5 +1,8 @@
 import pandas as pd
 
+from aif360.datasets import BinaryLabelDataset
+from aif360.metrics import BinaryLabelDatasetMetric
+
 import MAF.algorithms.preprocessing as preprocessing
 import MAF.algorithms.inprocessing as inprocessing
 import MAF.algorithms.postprocessing as postprocessing
@@ -31,6 +34,38 @@ def get_tabular_data_metric(data_name):
         "performance": metrics["performance"],
         "classify": metrics["classify"],
     }
+
+
+def get_custom_tabular_data_metric(saved_path: str):
+    custom_data = BinaryLabelDataset(
+        df=pd.read_csv(saved_path),
+        label_names=["Target"],
+        protected_attribute_names=["Bias"],
+    )
+
+    data_metric = BinaryLabelDatasetMetric(
+        dataset=custom_data,
+        privileged_groups=[{"Bias": 1.0}],
+        unprivileged_groups=[{"Bias": 0.0}],
+    )
+
+    metrics = {
+        "protected": custom_data.protected_attribute_names[0],
+        "privileged": {
+            "num_negatives": data_metric.num_negatives(privileged=True),
+            "num_positives": data_metric.num_positives(privileged=True),
+        },
+        "unprivileged": {
+            "num_negatives": data_metric.num_negatives(privileged=False),
+            "num_positives": data_metric.num_positives(privileged=False),
+        },
+        "base_rate": round(data_metric.base_rate(), 3),
+        "statistical_parity_difference": round(
+            data_metric.statistical_parity_difference(), 3
+        ),
+        "consistency": round(data_metric.consistency()[0], 4),
+    }
+    return metrics
 
 
 def get_image_data_metric(data_name):

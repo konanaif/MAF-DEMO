@@ -3,14 +3,13 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
+import os
 from .util import *
 from .context_processors import ALGORITHM_ID2NAME, ALGORITHM_NAME2ID
 
 import MAF.algorithms.preprocessing as preprocessing
 import MAF.algorithms.inprocessing as inprocessing
 import MAF.algorithms.postprocessing as postprocessing
-
-from MAF.algorithms.inprocessing.concse import mitigate_concse
 
 from MAF.benchmark.crehate.crehate_demo import check_hatespeech
 from MAF.benchmark.kobbq.kobbq_demo import check_korean_bias, KoBBQArguments
@@ -24,6 +23,26 @@ def index(request):
 
 def select_data_type(request):
     return render(request, "selection_menu/select_data_type.html")
+
+
+@csrf_exempt
+def check_custom_data_metric(request):
+    if request.method == "POST" and "file" in request.FILES:
+        uploaded_file = request.FILES["file"]
+        save_dir = os.environ["PYTHONPATH"] + "/MAF/data/custom_data"
+        os.makedirs(save_dir, exist_ok=True)
+
+        file_path = save_dir + "/custom.csv"
+        with open(file_path, "wb+") as f:
+            for chunk in uploaded_file.chunks():
+                f.write(chunk)
+
+        data_metric = get_custom_tabular_data_metric(file_path)
+        return render(
+            request,
+            "custom_data_metric.html",
+            {"data_name": "custom data", "data": data_metric},
+        )
 
 
 @csrf_exempt
@@ -98,6 +117,7 @@ def get_mitigation_result(request, data_name: str, algorithm_name: str):
     original_metrics_result, miti_result = load_algorithm(
         data_name, algorithm_name
     ).run()
+
     html_path = "compare_metric.html"
     if algorithm_name in ["slide", "ftm"]:
         html_path = "algorithm/compare_metric_acc_dp.html"
@@ -168,7 +188,7 @@ def processing_text_algorithms(request, algorithm_name: str):
 def show_text_algorithm_result(request, algorithm_name: str):
     html_path = f"algorithm/{algorithm_name}.html"
     if algorithm_name == "concse":
-        result = mitigate_concse(base_model="mbert_uncased")
+        result = inprocessing.concse.mitigate_concse(base_model="mbert_uncased")
         return render(
             request,
             html_path,
