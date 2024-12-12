@@ -106,10 +106,11 @@
 </script>
 <section>
 	<h2>Custom<span class="info-icon" onclick="showModal()">ⓘ</span></h2>
-	<form action="/file" method="post" enctype="multipart/form-data">
+	<form action="/custom/metric" method="post" enctype="multipart/form-data">
 		<div class="col-4 col-12-small">
-			<label for="file"><input type="file" name="file" id="file" />
-		</label>
+			<label for="file">
+				<input type="file" name="file" id="file" accept=".csv"/>
+			</label>
 		</div>
 		<br>
 		<div class="col-12">

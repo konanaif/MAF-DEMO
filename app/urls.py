@@ -10,6 +10,11 @@ urlpatterns = [
         select_action_per_datatype,
         name="select_action_per_datatype",
     ),
+    path(
+        "custom/metric",
+        check_custom_data_metric,
+        name="check_custom_data_metric",
+    ),
     path("metric/<data_type>/<data_name>/", load_metric, name="load_metric"),
     path(
         "metric/<data_type>/<data_name>/metric/",
