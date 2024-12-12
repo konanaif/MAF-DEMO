@@ -6,13 +6,14 @@ ALGORITHM_NAME2ID = {
     "Reweighing": "rw",
     "OptimPreproc": "optimpreproc",
     "FairStreamingPCA": "fairpca",
+    "FairBatch": "fairbatch",
     # inprocessing
     "MetaFairClassifier": "mfc",
     "PrejudiceRemover": "prejremover",
     "SLIDE": "slide",
     "FTM": "ftm",
     "ExponentiatedGradientReduction": "egr",
-    "KernerlDensityEstimation": "kde",  # 카테고리 확인필요
+    "KernelDensityEstimation": "kde",
     "GerryFairClassifier": "gfc",
     "AdversarialDebiasing": "ad",
     # postprocessing

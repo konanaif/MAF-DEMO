@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 
 import MAF.algorithms.preprocessing as preprocessing
 import MAF.algorithms.inprocessing as inprocessing
@@ -16,6 +16,7 @@ from MAF.metric.metric import get_metrics
 
 from .context_processors import ALGORITHM_NAME2ID
 
+
 def get_tabular_data_metric(data_name):
     if data_name == "compas":
         data = load_preproc_data_compas()
@@ -30,6 +31,7 @@ def get_tabular_data_metric(data_name):
         "performance": metrics["performance"],
         "classify": metrics["classify"],
     }
+
 
 def get_image_data_metric(data_name):
     if data_name == "pubfig":
@@ -71,6 +73,10 @@ def load_algorithm(data_name: str, algorithm_name: str):
         return preprocessing.fairpca.MeanCovarianceMatchingFairPCAWithClassifier(
             dataset_name=data_name, protected="sex"
         )
+    if algorithm_name == ALGORITHM_NAME2ID["FairBatch"]:
+        return preprocessing.fair_batch.FairBatch(
+            dataset_name=data_name, protected="sex"
+        )
     if algorithm_name == ALGORITHM_NAME2ID["SLIDE"]:
         return inprocessing.slide.SlideFairClassifier(
             dataset_name=data_name, protected="sex"
@@ -103,6 +109,15 @@ def load_algorithm(data_name: str, algorithm_name: str):
         return inprocessing.learning_from_fairness.LearningFromFairness(
             dataset_name=data_name
         )
+    if algorithm_name == ALGORITHM_NAME2ID["AdversarialDebiasing"]:
+        return inprocessing.adversarial_debiasing.AdversarialDebiasing(
+            dataset_name=data_name, protected="sex"
+        )
+    if algorithm_name == ALGORITHM_NAME2ID["KernerlDensityEstimation"]:
+        kde_params = inprocessing.kernel_density_estimation.KDEParameters()
+        return inprocessing.kernel_density_estimation.KernelDensityEstimation(
+            params=kde_params, dataset_name=data_name, protected="sex"
+        )
     if algorithm_name == ALGORITHM_NAME2ID["CalibratedEqOdds"]:
         return postprocessing.calibrated_eq_odds.CalibratedEqOdds(
             dataset_name=data_name, protected="sex"
@@ -113,9 +128,5 @@ def load_algorithm(data_name: str, algorithm_name: str):
         )
     if algorithm_name == ALGORITHM_NAME2ID["RejectOptionClassifier"]:
         return postprocessing.reject_option_classification.RejectOptionClassifier(
-            dataset_name=data_name, protected="sex"
-        )
-    if algorithm_name == ALGORITHM_NAME2ID["AdversarialDebiasing"]:
-        return inprocessing.adversarial_debiasing.AdversarialDebiasing(
             dataset_name=data_name, protected="sex"
         )
