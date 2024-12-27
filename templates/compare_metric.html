@@ -146,18 +146,18 @@
 				<tbody>
 					<tr>
 						<td class="tooltip" onmouseover="showTooltip('bm', 'Error Rate')">Error rate</td>
-						{% if original.error_rate <= mitigated.error_rate %}
+						{% if original.error_rate|abs < mitigated.error_rate|abs %}
 							<td><b>{{ original.error_rate }}</b></td>
 							<td>{{ mitigated.error_rate }}</td>
 						{% else %}
 							<td>{{ original.error_rate }}</td>
 							<td><b>{{ mitigated.error_rate }}</b></td>
 						{% endif %}
-						<td></td>
+						<td>0</td>
 					</tr>
 					<tr>
 						<td class="tooltip" onmouseover="showTooltip('bm', 'Average odds difference')">Average odds difference</td>
-						{% if original.average_odds_difference <= mitigated.average_odds_difference %}
+						{% if original.average_odds_difference < mitigated.average_odds_difference %}
 							<td><b>{{ original.average_odds_difference }}</b></td>
 							<td>{{ mitigated.average_odds_difference }}</td>
 						{% else %}
@@ -168,7 +168,7 @@
 					</tr>
 					<tr>
 						<td class="tooltip" onmouseover="showTooltip('bm', 'Average abs odds difference')">Average abs odds difference</td>
-						{% if original.average_abs_odds_difference <= mitigated.average_abs_odds_difference %}
+						{% if original.average_abs_odds_difference < mitigated.average_abs_odds_difference %}
 							<td><b>{{ original.average_abs_odds_difference }}</b></td>
 							<td>{{ mitigated.average_abs_odds_difference }}</td>
 						{% else %}
@@ -179,9 +179,16 @@
 					</tr>
 					<tr>
 						<td class="tooltip" onmouseover="showTooltip('bm', 'Selection rate')">Selection rate</td>
-							<td>{{ original.selection_rate }}</td>
-							<td>{{ mitigated.selection_rate }}</td>
-						<td></td>
+						{% with original_ideal_diff=-0.5|add:original.selection_rate mitigated_ideal_diff=-0.5|add:mitigated.selection_rate %}
+							{% if original_ideal_diff|abs < mitigated_ideal_diff|abs %}
+								<td><b>{{ original.selection_rate }}</b></td>
+								<td>{{ mitigated.selection_rate }}</td>
+							{% else %}
+								<td>{{ original.selection_rate }}</td>
+								<td><b>{{ mitigated.selection_rate }}</b></td>
+							{% endif %}				
+						{% endwith %}			
+						<td>0.5</td>
 					</tr>
 					<tr>
 						<td class="tooltip" onmouseover="showTooltip('bm', 'Disparate impact')">Disparate impact</td>
@@ -215,7 +222,7 @@
 					</tr>
 					<tr>
 						<td class="tooltip" onmouseover="showTooltip('bm', 'Statistical parity difference')">Statistical parity difference</td>
-						{% if original.statistical_parity_difference <= mitigated.statistical_parity_difference %}
+						{% if original.statistical_parity_difference|abs < mitigated.statistical_parity_difference|abs %}
 							<td><b>{{ original.statistical_parity_difference }}</b></td>
 							<td>{{ mitigated.statistical_parity_difference }}</td>
 						{% else %}
@@ -226,7 +233,7 @@
 					</tr>
 					<tr>
 						<td class="tooltip" onmouseover="showTooltip('bm', 'Generalized entropy index')">Generalized entropy index</td>
-						{% if original.generalized_entropy_index <= mitigated.generalized_entropy_index %}
+						{% if original.generalized_entropy_index < mitigated.generalized_entropy_index %}
 							<td><b>{{ original.generalized_entropy_index }}</b></td>
 							<td>{{ mitigated.generalized_entropy_index }}</td>
 						{% else %}
@@ -237,7 +244,7 @@
 					</tr>
 					<tr>
 						<td class="tooltip" onmouseover="showTooltip('bm', 'Theil index')">Theil index</td>
-						{% if original.theil_index <= mitigated.theil_index %}
+						{% if original.theil_index < mitigated.theil_index %}
 							<td><b>{{ original.theil_index }}</b></td>
 							<td>{{ mitigated.theil_index }}</td>
 						{% else %}
@@ -248,7 +255,7 @@
 					</tr>
 					<tr>
 						<td class="tooltip" onmouseover="showTooltip('bm', 'Equal opportunity difference')">Equal opportunity difference</td>
-						{% if original.equal_opportunity_difference <= mitigated.equal_opportunity_difference %}
+						{% if original.equal_opportunity_difference < mitigated.equal_opportunity_difference %}
 							<td><b>{{ original.equal_opportunity_difference }}</b></td>
 							<td>{{ mitigated.equal_opportunity_difference }}</td>
 						{% else %}
