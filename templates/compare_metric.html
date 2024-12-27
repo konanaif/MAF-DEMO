@@ -14,17 +14,16 @@
 
 {% block body_content %}
 <h1 class="major">Compare models</h1>
-<!-- Text -->
-	<section>
-		<ul class="alt">
-			<li><b>Dataset</b>: {{ data_name }}</li>
-			<li><b>Protected attribute</b>: {{ protected_attribute }}</li>
-				<li><b>Mitigation algorithm</b>: {{ algorithm_name }}</li>
-		</ul>
-	</section>
 
-<!-- Table -->
-	<h2>Tables of metrics</h2>
+<section>
+	<ul class="alt">
+		<li><b>Dataset</b>: {{ data_name }}</li>
+		<li><b>Protected attribute</b>: {{ protected_attribute }}</li>
+			<li><b>Mitigation algorithm</b>: {{ algorithm_name }}</li>
+	</ul>
+</section>
+
+<h2>Tables of metrics</h2>
 	<section>
 		<h3>A. Performance metrics</h3>
 		<div class="table-wrapper">
