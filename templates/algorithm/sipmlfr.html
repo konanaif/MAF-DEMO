@@ -1,0 +1,31 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load mathfilters %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#" class="active">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+sIPM-LFR is a new adversarial training scheme for LFR, where the integral probability metric (IPM) with a specific parametric family of discriminators is used. 
+In this research, we derive theoretical relations between the fairness of representation and the fairness of the prediction model built on the top of the representation (i.e., using the representation as the input).
+<br><br>
+<h1 class="major">Results</h1>
+	<section>
+		<ul class="alt">
+			<li><b>Accuracy</b>: {{ result.acc }}</li>
+			<li><b>Balanced accuracy</b>: {{ result.bacc }}</li>
+            <li><b>Average precision</b>: {{ result.ap }}</li>
+			<li><b>DP(demographic parity)</b>: {{ result.dp }}</li>
+            <li><b>mean DP</b>: {{ result.mdp }}</li>
+			<li><b>strong DP</b>: {{ result.sdp }}</li>
+            <li><b>variance of DP</b>: {{ result.vdp }}</li>
+		</ul>
+	</section>
+{% endblock %}

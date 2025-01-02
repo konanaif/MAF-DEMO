@@ -114,6 +114,15 @@ def get_mitigation_result(request, data_name: str, algorithm_name: str):
             },
         )
 
+    if algorithm_name == "sipmlfr":
+        result = load_algorithm(data_name, algorithm_name).run(run_five=0)
+        result = {k: round(result[k][0], 5) for k in result}
+        return render(
+            request,
+            f"algorithm/{algorithm_name}.html",
+            {"algorithm_name": ALGORITHM_ID2NAME[algorithm_name], "result": result},
+        )
+
     original_metrics_result, miti_result = load_algorithm(
         data_name, algorithm_name
     ).run()
