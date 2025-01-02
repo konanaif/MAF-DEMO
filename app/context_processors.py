@@ -16,6 +16,7 @@ ALGORITHM_NAME2ID = {
     "KernelDensityEstimation": "kde",
     "GerryFairClassifier": "gfc",
     "AdversarialDebiasing": "ad",
+    "sIPMLFR": "sipmlfr",
     # postprocessing
     "CalibratedEqOdds": "ceo",
     "EqualizedOdds": "eo",

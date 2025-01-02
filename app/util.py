@@ -148,11 +148,19 @@ def load_algorithm(data_name: str, algorithm_name: str):
         return inprocessing.adversarial_debiasing.AdversarialDebiasing(
             dataset_name=data_name, protected="sex"
         )
-    if algorithm_name == ALGORITHM_NAME2ID["KernerlDensityEstimation"]:
+    if algorithm_name == ALGORITHM_NAME2ID["KernelDensityEstimation"]:
         kde_params = inprocessing.kernel_density_estimation.KDEParameters()
         return inprocessing.kernel_density_estimation.KernelDensityEstimation(
             params=kde_params, dataset_name=data_name, protected="sex"
         )
+    if algorithm_name == ALGORITHM_NAME2ID["GerryFairClassifier"]:
+        return inprocessing.gerry_fair_classifier.GerryFairClassifier(
+            dataset_name=data_name, protected="sex"
+        )
+
+    if algorithm_name == ALGORITHM_NAME2ID["sIPMLFR"]:
+        return inprocessing.sipm_lfr.SIPMLFR(dataname=data_name)
+
     if algorithm_name == ALGORITHM_NAME2ID["CalibratedEqOdds"]:
         return postprocessing.calibrated_eq_odds.CalibratedEqOdds(
             dataset_name=data_name, protected="sex"
