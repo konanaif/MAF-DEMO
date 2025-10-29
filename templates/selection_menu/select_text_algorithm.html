@@ -66,6 +66,26 @@
 					</label>
 			</div>
 		</li>
+		<li>
+			<div class="col-4 col-12-small">
+					<input type="radio" id="cpt" name="algorithm" value="cpt">
+					<label class="tooltip" for="cpt">Causal Path Tracing
+						<span class="tooltiptext tooltip-right">
+							Causal Path Tracing is an algorithm for causally tracing the internal pathways of a Transformer-based model's answer generation.
+						</span>
+					</label>
+			</div>
+		</li>
+		<li>
+			<div class="col-4 col-12-small">
+					<input type="radio" id="ember" name="algorithm" value="ember">
+					<label class="tooltip" for="ember">EMBER
+						<span class="tooltiptext tooltip-right">
+							EMBER, a benchmark designed to assess the robustness of LLM-judges to epistemic markers in both single and pairwise evaluation settings. 
+						</span>
+					</label>
+			</div>
+		</li>
 	</ul>
 	<div class="col-12">
 		<input type="submit" onclick="submitForm()" value="Check Result" class="primary" />
@@ -77,7 +97,7 @@ function submitForm(){
 	const selectedData = document.querySelector('input[name="algorithm"]:checked');
 	if (selectedData){
 		let redirect_url;
-		if (selectedData.value == "concse"){
+		if (selectedData.value == "concse" || selectedData.value == "cpt" || selectedData.value == "ember"){
 			redirect_url = '/app/text/mitigation/'+selectedData.value+'/loading/';
 		}
 		else{

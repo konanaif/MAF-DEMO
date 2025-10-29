@@ -1,0 +1,64 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load mathfilters %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#" class="active">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<b>Causal Path Tracing</b> is an algorithm for causally tracing the internal pathways of a Transformer-based model's answer generation.
+The algorithm explores the causal path for each sample's model decision within a pretrained Transformer. 
+It is evaluated based on how well the original decision is preserved when only the identified Causal Path remains.
+
+<br>
+- Hit Rate: The proportion of samples for which the original decision index is maintained when only the Causal Path is preserved.
+For instance, if among 100 explored samples, the original decision is maintained for only 70 samples when only the Causal Path is preserved, then Hit Rate = 0.7.
+
+- Faithfulness: The degree to which the logit value of the original decision index is preserved when only the Causal Path is preserved.
+For instance, if among 100 explored samples, the logit of the original decision index is maintained by only about 60% when only the Causal Path is preserved, then Faithfulness = 0.6.
+<br><br>
+<b> * Interpretation Guidelines</b>
+<br>
+<table>
+    <thead>
+        <tr>
+            <th>Evaluation Result</th>
+            <th>Interpretation</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>High Hit Rate &amp; High Faithfulness</td>
+            <td>The explored Causal Path is truly causal for that decision.</td>
+        </tr>
+        <tr>
+            <td>High Hit Rate &amp; Low Faithfulness</td>
+            <td>The explored Causal Path is causal enough to produce the decision, but there is some information loss.</td>
+        </tr>
+        <tr>
+            <td>Low Hit Rate &amp; High Faithfulness</td>
+            <td>Although the explored Causal Path maintains the original logit, it is difficult to consider it causal because the model's decision has changed.</td>
+        </tr>
+        <tr>
+            <td>Low Hit Rate &amp; Low Faithfulness</td>
+            <td>The explored Causal Path is not causal.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h1 class="major">Results</h1>
+	<section>
+		<ul class="alt">
+			<li><b>Dataset</b>: LAMA T-REx dataset</li>
+			<li><b>Hit Rate</b>: {{ hitrate }}</li>
+			<li><b>Faithfulness</b>: {{ faithfulness }}</li>
+		</ul>
+	</section>
+{% endblock %}

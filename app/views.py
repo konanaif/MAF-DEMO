@@ -160,7 +160,7 @@ def get_textdata(request, algorithm_name: str):
 @csrf_exempt
 def processing_text_algorithms(request, algorithm_name: str):
     redirect_path = f"text/mitigation/{algorithm_name}/getresult/"
-    if algorithm_name == "concse":
+    if algorithm_name in ["concse", "cpt", "ember"]:
         return render(request, "text_mitigation_loading.html")
 
     if algorithm_name == "rh":
@@ -202,6 +202,31 @@ def show_text_algorithm_result(request, algorithm_name: str):
             request,
             html_path,
             {"algorithm_name": algorithm_name, "spearman_corr": result},
+        )
+
+    if algorithm_name == "cpt":
+        result = postprocessing.casual_path_tracing.cpt.mitigate_cpt()
+        return render(
+            request,
+            html_path,
+            {"algorithm_name": algorithm_name, "hitrate": result["HitRate"], "faithfulness": result["Faithfulness"]},
+        )
+
+    if algorithm_name == "ember":
+        if_result = postprocessing.ember.run_ifeval.migitage_ember_if()
+        qa_result = postprocessing.ember.run_qaeval.migitage_ember_qa()
+   
+        return render(
+            request,
+            html_path,
+            {
+                "algorithm_name": algorithm_name, 
+                "em_pairs": if_result["em_pairs"], 
+                "surface_acc": if_result["surface_acc"],
+                "absolute_acc": if_result["absolute_acc"],
+                "qa_result_acc": qa_result["acc"],
+                "qa_result_matrix": qa_result["matrix"]
+            },
         )
 
     if algorithm_name == "rh":
