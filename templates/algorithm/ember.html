@@ -1,0 +1,139 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load mathfilters %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#" class="active">Result</a></li>
+	</ul>
+{% endblock %}
+
+{% block body_content %}
+<b>EMBER</b> a benchmark designed to assess the robustness of LLM-judges to epistemic markers in both single and pairwise evaluation settings. 
+In this demo, evaluation parameters are set as follows:
+<br>
+- <b>EMBER IF format</b>
+<br>
+    max_token =10, eval_model = gpt-4-mini, em_pairs = {{em_pairs}}
+<br>
+- <b>EMBER QA format</b>
+<br>
+    data_type = integ, max_token =10, eval_model = gpt-4-mini, scoring = yesno, eval_only = false, correctness = true
+<br>
+
+
+<h1 class="major">Results</h1>
+	<section>
+		<ul class="alt">
+			<li><b>Dataset</b>: EMBER_IF dataset</li>
+			<li><b>em_pairs</b>: {{ em_pairs }}</li>
+			<li><b>surface accuracy</b>: {{ surface_acc }}</li>
+			<li><b>absolute accuracy</b>: {{ absolute_acc }}</li>
+		</ul>
+		<ul class="alt">
+			<li><b>Dataset</b>: EMBER_QA dataset</li>
+			<li><b>reader</b>: gpt4</li>
+            <b>true_samples</b> {{ qa_result_acc.gpt4.true_samples }}
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>markers</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>acc</th>
+                        <th>str</th>
+                        <th>plain</th>
+                        <th>weak</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>surface accuracy </td>
+                        <td>{{qa_result_acc.gpt4.suf.str}}</td>
+                        <td>{{qa_result_acc.gpt4.suf.plain}}</td>
+                        <td>{{qa_result_acc.gpt4.suf.weak}}</td>
+                    </tr>
+                    <tr>
+                        <td> absolute accuracy </td>
+                        <td>{{qa_result_acc.gpt4.abs.str}}</td>
+                        <td>{{qa_result_acc.gpt4.abs.plain}}</td>
+                        <td>{{qa_result_acc.gpt4.abs.weak}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <li><b>reader</b>: newbing</li>
+            <b>true_samples</b> {{ qa_result_acc.newbing.true_samples }}
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>markers</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>acc</th>
+                        <th>str</th>
+                        <th>plain</th>
+                        <th>weak</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>surface accuracy </td>
+                        <td>{{qa_result_acc.newbing.suf.str}}</td>
+                        <td>{{qa_result_acc.newbing.suf.plain}}</td>
+                        <td>{{qa_result_acc.newbing.suf.weak}}</td>
+                    </tr>
+                    <tr>
+                        <td> absolute accuracy </td>
+                        <td>{{qa_result_acc.newbing.abs.str}}</td>
+                        <td>{{qa_result_acc.newbing.abs.plain}}</td>
+                        <td>{{qa_result_acc.newbing.abs.weak}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <b>Accuracy against human</b>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>markers</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>reader</th>
+                        <th>str</th>
+                        <th>plain</th>
+                        <th>weak</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> gpt4 </td>
+                        <td>{{qa_result_matrix.gpt4.str}}</td>
+                        <td>{{qa_result_matrix.gpt4.plain}}</td>
+                        <td>{{qa_result_matrix.gpt4.weak}}</td>
+                    </tr>
+                    <tr>
+                        <td> newbing </td>
+                        <td>{{qa_result_matrix.newbing.str}}</td>
+                        <td>{{qa_result_matrix.newbing.plain}}</td>
+                        <td>{{qa_result_matrix.newbing.weak}}</td>
+                    </tr>
+                </tbody>
+            </table>
+		</ul>
+
+    </section>
+{% endblock %}
