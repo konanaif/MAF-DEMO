@@ -28,6 +28,7 @@ ALGORITHM_NAME2ID = {
     "FairFeatureDistillation": "ffd",
     "FairnessVAE": "fvae",
     "LearningFromFairness": "lff",
+    "DMLBG": "dmlbg",
     # audio
     "INTapt": "intapt",
     # text
@@ -35,6 +36,7 @@ ALGORITHM_NAME2ID = {
     "Latte": "latte",
     "CREHate": "crehate",
     "KoBBQ": "kobbq",
+    "BBG": "bbg",
     "ConCSE": "concse",
 }
 

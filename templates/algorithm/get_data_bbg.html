@@ -1,0 +1,131 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block header_content %}
+<ul>
+    <li><a href="/app">Home</a></li>
+    <li><a href="/app/datatype">Data</a></li>
+    <li><a href="#">Metrics</a></li>
+    <li><a href="#" class="active">Algorithms</a></li>
+    <li><a href="#">Result</a></li>
+</ul>
+{% endblock %}
+
+{% block body_content %}
+<h2>Select BBG Template</h2>
+
+<form id="bbgForm" method="post" action="/app/text/mitigation/bbg/loading/">
+    {% csrf_token %}
+
+    <div>
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="">--Select Category--</option>
+            {% for cat in categories %}
+                <option value="{{ cat }}">{{ cat }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div>
+        <label for="stereotype">Stereotype:</label>
+        <select id="stereotype" name="stereotype" required>
+            <option value="">--Select Stereotype--</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="template_id">Template ID:</label>
+        <select id="template_id" name="template_id" required>
+            <option value="">--Select Template ID--</option>
+        </select>
+    </div>
+
+    <br>
+    <h3>Context Preview</h3>
+    <table border="1" id="contextTable">
+        <thead>
+            <tr>
+                <th>Ambiguous_context</th>
+                <th>Disambiguating_context</th>
+                <th>Biased_question</th>
+                <th>Counter-biased_question</th>
+                <th>Biased_question_answer</th>
+                <th>Counter-biased_question_answer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="6">-</td></tr>
+        </tbody>
+    </table>
+
+    <br>
+    <input type="submit" value="Run BBG" class="primary">
+</form>
+
+<script>
+const templates = JSON.parse('{{ grouped_templates_json|escapejs }}');
+
+const categorySelect = document.getElementById("category");
+const stereotypeSelect = document.getElementById("stereotype");
+const templateSelect = document.getElementById("template_id");
+const contextTable = document.getElementById("contextTable").getElementsByTagName('tbody')[0];
+
+// Category → Stereotype
+categorySelect.addEventListener("change", () => {
+    const cat = categorySelect.value;
+    stereotypeSelect.innerHTML = '<option value="">--Select Stereotype--</option>';
+    templateSelect.innerHTML = '<option value="">--Select Template ID--</option>';
+    contextTable.innerHTML = '<tr><td colspan="6">-</td></tr>';
+
+    if (!cat) return;
+    Object.keys(templates[cat]).forEach(stere => {
+        const opt = document.createElement("option");
+        opt.value = stere;
+        opt.text = stere;
+        stereotypeSelect.appendChild(opt);
+    });
+});
+
+// Stereotype → Template ID
+stereotypeSelect.addEventListener("change", () => {
+    const cat = categorySelect.value;
+    const stere = stereotypeSelect.value;
+    templateSelect.innerHTML = '<option value="">--Select Template ID--</option>';
+    contextTable.innerHTML = '<tr><td colspan="6">-</td></tr>';
+
+    if (!stere) return;
+    Object.keys(templates[cat][stere]).forEach(tid => {
+        const opt = document.createElement("option");
+        opt.value = tid;
+        opt.text = tid;
+        templateSelect.appendChild(opt);
+    });
+});
+
+// Template ID → Context Table (모든 버전 표시)
+templateSelect.addEventListener("change", () => {
+    const cat = categorySelect.value;
+    const stere = stereotypeSelect.value;
+    const tid = templateSelect.value;
+    contextTable.innerHTML = '';
+
+    if (!tid) {
+        contextTable.innerHTML = '<tr><td colspan="6">-</td></tr>';
+        return;
+    }
+
+    const versions = Object.keys(templates[cat][stere][tid]);
+    versions.forEach(ver => {
+        const entry = templates[cat][stere][tid][ver];
+        const row = contextTable.insertRow();
+        row.insertCell(0).textContent = entry.Ambiguous_context;
+        row.insertCell(1).textContent = entry.Disambiguating_context;
+        row.insertCell(2).textContent = entry.Biased_question;
+        row.insertCell(3).textContent = entry.Counter_biased_question;
+        row.insertCell(4).textContent = entry.Biased_question_answer;
+        row.insertCell(5).textContent = entry.Counter_biased_question_answer;
+    });
+});
+</script>
+{% endblock %}

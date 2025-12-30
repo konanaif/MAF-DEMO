@@ -1,0 +1,99 @@
+{% extends "common/base.html" %}
+{% load static %}
+
+{% block header_content %}
+<ul>
+    <li><a href="/app">Home</a></li>
+    <li><a href="/app/datatype">Data</a></li>
+    <li><a href="#">Metrics</a></li>
+    <li><a href="#" class="active">Algorithms</a></li>
+    <li><a href="#">Result</a></li>
+</ul>
+{% endblock %}
+
+{% block body_content %}
+<h2>BBG Algorithm Result</h2>
+
+<h3>DATA Info</h3>
+<ul>
+    <li>Category: {{ request.session.category }}</li>
+    <li>Template ID: {{ request.session.template_id }}</li>
+</ul>
+
+{% if result %}
+    {% if result.qualitative and result.qualitative|length > 0 %}
+        {% with first_row=result.qualitative.0 %}
+            <p style="margin-bottom: 5px;"><strong>상황:</strong></p>
+            <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                {{ first_row.context }}
+            </div>
+            <br>
+
+            <p style="margin-bottom: 5px;"><strong>주어진 상황에 이어서 이야기를 완성하시오:</strong></p>
+            <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                {{ first_row.generation_output }}
+            </div>
+        {% endwith %}
+        <br>
+
+        {% regroup result.qualitative by id|slice:":12" as grouped_results %}
+        {% for group in grouped_results %}
+            <h3 style="margin-top: 25px;">{{ group.grouper }} Result:</h3>
+
+            <table border="1" cellpadding="5"
+                   style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Question</th>
+                        <th>Result</th>
+                        <th>Biased Answer</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in group.list %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.question }}</td>
+                        <td>{{ row.result }}</td>
+                        <td>{{ row.biased_answer }}</td>
+                        <td>{{ row.type }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+
+        {% endfor %}
+    {% endif %}
+
+    <br>
+    <h4>Score:</h4>
+    <table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%;">
+        <thead>
+            <tr>
+                {% for key in result.scores.0.keys %}
+                    <th>{{ key }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result.scores %}
+                <tr>
+                    {% for value in row.values %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% else %}
+    <p>No data found for the selected combination.</p>
+{% endif %}
+
+<br>
+<a href="{% url 'app:get_textdata' 'bbg' %}">Back to Selection</a>
+
+{% endblock %}

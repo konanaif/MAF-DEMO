@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+import numpy as np
 
 import os
 from .util import *
@@ -13,6 +14,7 @@ import MAF.algorithms.postprocessing as postprocessing
 
 from MAF.benchmark.crehate.crehate_demo import check_hatespeech
 from MAF.benchmark.kobbq.kobbq_demo import check_korean_bias, KoBBQArguments
+from MAF.benchmark.bbg.bbg_demo import BBGArguments, run_bbg_pipeline
 
 from MAF.metric.latte.check_toxicity import check_toxicity
 
@@ -117,10 +119,30 @@ def get_mitigation_result(request, data_name: str, algorithm_name: str):
     if algorithm_name == "sipmlfr":
         result = load_algorithm(data_name, algorithm_name).run(run_five=0)
         result = {k: round(result[k][0], 5) for k in result}
+        result_pairs = list(zip(result.Ks, result.best_recalls))
         return render(
             request,
             f"algorithm/{algorithm_name}.html",
-            {"algorithm_name": ALGORITHM_ID2NAME[algorithm_name], "result": result},
+            {"algorithm_name": ALGORITHM_ID2NAME[algorithm_name], "result": result_pairs},
+        )
+    
+    if algorithm_name == "dmlbg":
+        result = inprocessing.dmlbg.migitage_dmlbg()
+        html_path = f"algorithm/{algorithm_name}.html"
+        
+        if isinstance(result.get("best_recalls"), np.ndarray):
+            result["best_recalls"] = result["best_recalls"].tolist()
+        
+        Ks = result.get("Ks", [1, 2, 4, 8, 16, 32])  # fallback
+        result["recall_pairs"] = list(zip(Ks, result["best_recalls"]))
+        return render(
+            request,
+            html_path,
+            {
+                "algorithm_name": algorithm_name,
+                "data_name" : data_name,
+                "result": result,
+            },
         )
 
     original_metrics_result, miti_result = load_algorithm(
@@ -144,14 +166,44 @@ def get_mitigation_result(request, data_name: str, algorithm_name: str):
         },
     )
 
-
 @csrf_exempt
 def get_textdata(request, algorithm_name: str):
-    """
-    algorithm_name = ["rh", "latte", "crehate", "kobbq"]
-    """
+    import json
     html_path = f"algorithm/get_data_{algorithm_name}.html"
     result_url = f"/app/text/mitigation/{algorithm_name}/loading/"
+
+    if algorithm_name == "bbg":
+        from pathlib import Path
+        tem_dir = os.environ["PYTHONPATH"] + "/MAF/data/bbg/KoBBG_templates.csv"
+        df_templates = pd.read_csv(tem_dir)
+
+        grouped_templates = {}
+        for _, row in df_templates.iterrows():
+            cat = row["Category"]
+            stere = row["Stereotype"]
+            tid = str(row["Template_ID"])
+
+            grouped_templates.setdefault(cat, {}) \
+                             .setdefault(stere, {}) \
+                             .setdefault(tid, []).append({
+                                 "Ambiguous_context": row["Ambiguous_context"],
+                                 "Disambiguating_context": row["Disambiguating_context"],
+                                 "Biased_question": row["Biased_question"],
+                                 "Counter_biased_question": row["Counter-biased_question"],
+                                 "Biased_question_answer": row["Biased_question_answer"],
+                                 "Counter_biased_question_answer": row["Counter-biased_question_answer"],
+                             })
+
+        categories = list(grouped_templates.keys())
+
+        return render(request, html_path, {
+            "algorithm": algorithm_name,
+            "result_url": result_url,
+            "categories": categories,
+            "grouped_templates_json": json.dumps(grouped_templates),
+            "result_url": result_url
+        })
+
     return render(
         request, html_path, {"algorithm": algorithm_name, "result_url": result_url}
     )
@@ -191,8 +243,14 @@ def processing_text_algorithms(request, algorithm_name: str):
             request.session["biased_answer"] = request.POST.get("biased_answer")
             request.session["answer"] = request.POST.get("answer")
             return render(request, "text_mitigation_loading.html")
-
-
+        
+    if algorithm_name == "bbg":
+        if request.method == "POST":
+            request.session["category"] = request.POST.get("category")
+            request.session["stereotype"] = request.POST.get("stereotype")
+            request.session["template_id"] = request.POST.get("template_id")
+            return render(request, "text_mitigation_loading.html")
+        
 @csrf_exempt
 def show_text_algorithm_result(request, algorithm_name: str):
     html_path = f"algorithm/{algorithm_name}.html"
@@ -291,4 +349,17 @@ def show_text_algorithm_result(request, algorithm_name: str):
             answer=answer,
         )
         result = check_korean_bias(model_name=model, data_args=args)
+        return render(request, html_path, {"result": result})
+
+    if algorithm_name == "bbg":
+        category = request.session.get("category")
+        stereotype = request.session.get("stereotype")
+        template_id = request.session.get("template_id")
+        args = BBGArguments(
+            category=category,
+            stereotype=stereotype,
+            template_id=template_id,
+        )
+
+        result = run_bbg_pipeline(args)
         return render(request, html_path, {"result": result})
