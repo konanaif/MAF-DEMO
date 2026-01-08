@@ -15,6 +15,7 @@ ALGORITHM_NAME2ID = {
     "ExponentiatedGradientReduction": "egr",
     "KernelDensityEstimation": "kde",
     "GerryFairClassifier": "gfc",
+    "GridSearchReduction": "gsr",
     "AdversarialDebiasing": "ad",
     "sIPMLFR": "sipmlfr",
     # postprocessing
@@ -31,6 +32,7 @@ ALGORITHM_NAME2ID = {
     "DMLBG": "dmlbg",
     # audio
     "INTapt": "intapt",
+    "FairASR": "fairasr",
     # text
     "RepresentativenessHeuristic": "rh",
     "Latte": "latte",

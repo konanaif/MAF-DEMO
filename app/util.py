@@ -85,6 +85,8 @@ def get_image_data_metric(data_name):
 def load_audio_algorithm(algorithm_name: str):
     if algorithm_name == ALGORITHM_NAME2ID["INTapt"]:
         return mitigate_intapt()
+    if algorithm_name == ALGORITHM_NAME2ID["FairASR"]:
+        return inprocessing.fairasr.FairASR()
 
 
 def load_algorithm(data_name: str, algorithm_name: str):
@@ -157,7 +159,10 @@ def load_algorithm(data_name: str, algorithm_name: str):
         return inprocessing.gerry_fair_classifier.GerryFairClassifier(
             dataset_name=data_name, protected="sex"
         )
-
+    if algorithm_name == ALGORITHM_NAME2ID["GridSearchReduction"]:
+        return inprocessing.grid_search_reduction.GridSearchReduction(
+            dataset_name=data_name, protected="sex"
+        )
     if algorithm_name == ALGORITHM_NAME2ID["sIPMLFR"]:
         return inprocessing.sipm_lfr.SIPMLFR(dataname=data_name)
 

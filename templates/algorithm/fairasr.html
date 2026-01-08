@@ -1,0 +1,27 @@
+{% extends "common/base.html" %}
+{% load mathfilters %}
+
+{% block header_content %}
+	<ul>
+		<li><a href="/app">Home</a></li>
+		<li><a href="/app/datatype">Data</a></li>
+		<li><a href="#">Metrics</a></li>
+		<li><a href="#">Algorithms</a></li>
+		<li><a href="#" class="active">Result</a></li>
+	</ul>
+{% endblock %}
+{% block body_content %}
+<section>
+	<ul class="alt">
+		<li><b>Dataset</b>: FairSpeech Dataset</li>
+	</ul>
+</section>
+	<h1 class="major">Results</h1>
+	<!-- Text -->
+		<section>
+			<ul class="alt">
+				<li><b>Val loss</b>: {{ result.val_loss }}</li>
+				<li><b>Val wer</b>: {{ result.val_wer }}</li>
+			</ul>
+		</section>
+{% endblock %}

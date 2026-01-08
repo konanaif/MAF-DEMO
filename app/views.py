@@ -115,6 +115,17 @@ def get_mitigation_result(request, data_name: str, algorithm_name: str):
                 "perf_diff": result["perf_diff"],
             },
         )
+        
+    if algorithm_name == "fairasr":
+        result = load_audio_algorithm(algorithm_name)
+        return render(
+            request,
+            f"algorithm/{algorithm_name}.html",
+            {
+                "algorithm_name": ALGORITHM_ID2NAME[algorithm_name],
+                "result": result,
+            },
+        )
 
     if algorithm_name == "sipmlfr":
         result = load_algorithm(data_name, algorithm_name).run(run_five=0)
