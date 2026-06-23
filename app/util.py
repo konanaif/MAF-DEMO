@@ -6,7 +6,6 @@ from aif360.metrics import BinaryLabelDatasetMetric
 import MAF.algorithms.preprocessing as preprocessing
 import MAF.algorithms.inprocessing as inprocessing
 import MAF.algorithms.postprocessing as postprocessing
-from MAF.algorithms.inprocessing.INTapt.intapt import mitigate_intapt
 from MAF.algorithms.preprocessing.optim_preproc_helpers.data_prepro_function import (
     load_preproc_data_adult,
     load_preproc_data_german,
@@ -84,6 +83,8 @@ def get_image_data_metric(data_name):
 
 def load_audio_algorithm(algorithm_name: str):
     if algorithm_name == ALGORITHM_NAME2ID["INTapt"]:
+        from MAF.algorithms.inprocessing.INTapt.intapt import mitigate_intapt
+
         return mitigate_intapt()
     if algorithm_name == ALGORITHM_NAME2ID["FairASR"]:
         return inprocessing.fairasr.FairASR()

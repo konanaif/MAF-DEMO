@@ -105,7 +105,17 @@ def load_mitigation(request, data_name, algorithm_name):
 @csrf_exempt
 def get_mitigation_result(request, data_name: str, algorithm_name: str):
     if algorithm_name == "intapt":
-        result = load_audio_algorithm(algorithm_name)
+        try:
+            result = load_audio_algorithm(algorithm_name)
+        except (RuntimeError, ImportError, OSError) as exc:
+            return render(
+                request,
+                f"algorithm/{algorithm_name}.html",
+                {
+                    "algorithm_name": ALGORITHM_ID2NAME[algorithm_name],
+                    "error_message": str(exc),
+                },
+            )
         return render(
             request,
             f"algorithm/{algorithm_name}.html",
@@ -117,7 +127,17 @@ def get_mitigation_result(request, data_name: str, algorithm_name: str):
         )
         
     if algorithm_name == "fairasr":
-        result = load_audio_algorithm(algorithm_name)
+        try:
+            result = load_audio_algorithm(algorithm_name)
+        except (RuntimeError, ImportError, OSError) as exc:
+            return render(
+                request,
+                f"algorithm/{algorithm_name}.html",
+                {
+                    "algorithm_name": ALGORITHM_ID2NAME[algorithm_name],
+                    "error_message": str(exc),
+                },
+            )
         return render(
             request,
             f"algorithm/{algorithm_name}.html",
@@ -129,12 +149,14 @@ def get_mitigation_result(request, data_name: str, algorithm_name: str):
 
     if algorithm_name == "sipmlfr":
         result = load_algorithm(data_name, algorithm_name).run(run_five=0)
-        result = {k: round(result[k][0], 5) for k in result}
-        result_pairs = list(zip(result.Ks, result.best_recalls))
+        result = {
+            k: round(v[0] if isinstance(v, list) else v, 5)
+            for k, v in result.items()
+        }
         return render(
             request,
             f"algorithm/{algorithm_name}.html",
-            {"algorithm_name": ALGORITHM_ID2NAME[algorithm_name], "result": result_pairs},
+            {"algorithm_name": ALGORITHM_ID2NAME[algorithm_name], "result": result},
         )
     
     if algorithm_name == "dmlbg":

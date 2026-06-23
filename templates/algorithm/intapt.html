@@ -17,6 +17,14 @@ We propose Information Theoretic Adversarial Prompt Tuning (INTapt), which intro
 model such that the corresponding input resembles a native (L1) English speech without updating the backbone weights.
 <br><br>
 	<h1 class="major">Results</h1>
+	{% if error_message %}
+		<section>
+			<ul class="alt">
+				<li><b>Run status</b>: Not runnable in the current environment</li>
+				<li><b>Reason</b>: {{ error_message }}</li>
+			</ul>
+		</section>
+	{% else %}
 	<!-- Text -->
 		<section>
 			<ul class="alt">
@@ -24,4 +32,5 @@ model such that the corresponding input resembles a native (L1) English speech w
 				<li><b>max - min performance</b>: {{ perf_diff }}</li>
 			</ul>
 		</section>
+	{% endif %}
 {% endblock %}
