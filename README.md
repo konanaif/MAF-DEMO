@@ -14,11 +14,12 @@ MAF-DEMO에서는 총 4가지 type(tabular, image, text, audio)의 데이터와 
 ## Setup
 1. 저장소 복제
     ```bash
-    git clone https://github.com/konanaif/MAF-DEMO.git
+    git clone https://github.com/konanaif/MAF2025-DEMO.git
+    cd MAF2025-DEMO
     ```
     MAF 폴더에 MAF 프레임워크를 다운로드 하고 MAF 프레임워크 설정에 맞추어 데이터를 다운받습니다.
     ``` bash
-    git clone https://github.com/konanaif/MAF.git
+    git clone https://github.com/konanaif/MAF2025.git MAF
     ```
 
 2. 환경설정
@@ -39,14 +40,26 @@ MAF-DEMO에서는 총 4가지 type(tabular, image, text, audio)의 데이터와 
       #OPENAI API KEY 설정 예시
       export OPENAI_API_KEY='your_api_key'
       #docker 사용 시 PYTHON 경로 설정 예시
-      export PYTHONPATH='/workspace/MAF-DEMO'
+      export PYTHONPATH='/workspace/MAF2025-DEMO'
       #Django SECRET KEY 설정
       export DJANGO_SECRET_KEY='your_django_key'
      ```
+   - `OPENAI_API_KEY`가 없으면 text demo는 로컬 Hugging Face 모델을 사용할 수 있습니다.
+      ```bash
+      huggingface-cli download Qwen/Qwen2.5-1.5B-Instruct
+      export MAF_USE_LOCAL_LLM=1
+      export MAF_LOCAL_TEXT_MODEL=Qwen/Qwen2.5-1.5B-Instruct
+      # 캐시 없이 처음 실행할 경우 MAF_LOCAL_LLM_LOCAL_FILES_ONLY=0 설정
+      ```
 
 4. DEMO 실행
   ```bash
-    python manage.py runserver
+    bash scripts/runner.sh
+  ```
+
+5. Image subset DEMO 실행
+  ```bash
+    bash scripts/runner_image_subset.sh
   ```
 
 ## How to use
@@ -97,4 +110,3 @@ AIF360의 알고리즘과 컨소시엄에서 개발한 알고리즘을 포함하
 
   - Audio algorithm: <b>INTapt</b>
   <img src = "https://github.com/user-attachments/assets/5a582374-0444-41b7-bb1f-af2cbf89c0b7" alt="Audio example" style="width:70%; height:25%;">
-
